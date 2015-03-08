@@ -2,16 +2,11 @@ __author__ = 'fsegovia'
 
 # Testing
 
-import fileReader
 
-fr = fileReader.FileReader('/Users/fsegovia/Desktop/ex.py', 'r')
-
-lines = fr.readLines()
+import equationManager.linear_equations as i
 
 
-for line in lines:
-    print(line)
-
-fr.closeFile()
+res = i.intersections([[2, 5], [7, -3], [3, 3]])
+print(res)
 
 
