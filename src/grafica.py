@@ -8,9 +8,14 @@ import matplotlib.pyplot as plt
 # de las regiones de aceptación.
 # Parametros:
 #  + Funciones: Debe ser una lista de strings que contenga las
-#  inecuaciones.
-#  Ejemplos: funciones = ["8-x","x"]
-#            funciones = ["10-x","20-x"]
+#  inecuaciones. Para representar inecuaciones q corten el ejeX
+#  (verticales) se deberá poner solo la constante en la función
+#  ejemplos: "8", "4+5", "2*3".
+#  Para los cortes con el ejeY (horizontales) o funciones continuas
+#  se deberá agregar "x*0" a la inecuación.
+#  ejemplos: "x*0+9", "x*0-4".
+#  Ejemplos: funciones = ["8-x","x","4"]
+#            funciones = ["10-x","20-x","x*0-2"]
 #
 #  + Intersecciones: Debe ser una lista de listas que contenga
 #  los pares ordenados de las intersecciones de la gráfica.
@@ -43,7 +48,10 @@ def graficar(funciones,intersecciones,ejes,vista):
     
     #graficacion de funciones-----------------------------------
     for i in funciones:
-        plt.plot(x,eval(i),"k--")
+        try:#grafica funciones
+            plt.plot(x,eval(i),"k--")
+        except:#grafica cortes con eje Y
+            plt.axvline(x=int(eval(i)),color="k",linestyle="dashed")
 
     #graficacion de puntos de intersecon------------------------
     for i in intersecciones:
@@ -57,13 +65,14 @@ def graficar(funciones,intersecciones,ejes,vista):
     plt.fill(region[0],region[1],"red")
 
     #configuraciones de vista-----------------------------------
-    plt.xlim(0-ejes[0]*0.1,ejes[0]*1.1)
-    plt.ylim(0-ejes[1]*0.1,ejes[1]*1.1)
+    plt.xlim(0-abs(ejes[0])*0.1,abs(ejes[0])*1.1)
+    plt.ylim(0-abs(ejes[1])*0.1,abs(ejes[1])*1.1)
     plt.grid(True)
     plt.show()
 
 #ejemplos, recuerde que está despejada la y
-graficar(["x","8-x"],[[0,0],[4,4],[0,8]],[8,8],3)
+graficar(["4","x*0+4"],[[0,0],[0,4],[4,4],[4,0]],[4,4],3)
+graficar(["x","8-x"],[[0,0],[0,8],[4,4]],[8,8],3)
 graficar(["10-x","20-x"],[[10,0],[20,0],[0,20],[0,10]],[20,20],3)
-
-
+graficar(["10000-x"],[[0,0],[10000,0],[0,10000]],[10000,10000],3)
+graficar(["9-x","8","x*0+8","2-x","x"],[[0,2],[0,8],[1,8],[4.5,4.5],[1,1]],[9,9],3)
