@@ -1,6 +1,21 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+
+#Constant definition
+LIMIT=0.1
+LEFT_VIEW=0.1
+RIGHT_VIEW=1.1
+X_VALUE=0
+Y_VALUE=1
+START=0
+DOTS_SIZE=10
+DOTS_CONFIG="go"
+LINE_COLOR="k"
+LINE_STYLE="dashed"
+REGION_COLOR="red"
+TITLE="Graficador"
+
 def plot_graph(inequalities,intersections,axis,view):
     """
     
@@ -11,34 +26,38 @@ def plot_graph(inequalities,intersections,axis,view):
     :param view: will determine the length of the plotted graphs.
 
     """
-    plt.title("Graficador")
-    plt.axhline(y=0,color="k")
-    plt.axvline(x=0,color="k")
-    x = np.arange(view*max(axis)*-1,view*max(axis),0.1)
+    plt.title(TITLE)
+    plt.axhline(y=START,color=LINE_COLOR)
+    plt.axvline(x=START,color=LINE_COLOR)
+    x = np.arange(change_sign(view*max(axis)),view*max(axis),LIMIT)
     
     #plotting inequalities
     for i in inequalities:
         try:#plots functions
-            plt.plot(x,eval(i),"k--")
+            plt.plot(x,eval(i),color=LINE_COLOR,linestyle=LINE_STYLE)
         except:#draws vertical lines
-            plt.axvline(x=int(eval(i)),color="k",linestyle="dashed")
+            plt.axvline(x=int(eval(i)),color=LINE_COLOR,linestyle=LINE_STYLE)
 
     #draws intersections
     for i in intersections:
-        plt.plot(i[0],i[1],"go",markersize=10)
+        plt.plot(i[X_VALUE],i[Y_VALUE],DOTS_CONFIG,markersize=DOTS_SIZE)
 
     #paints feasible region
     region=[[],[]]
     for i in intersections:
-        region[0].append(i[0])
-        region[1].append(i[1])
-    plt.fill(region[0],region[1],"red")
+        region[X_VALUE].append(i[X_VALUE])
+        region[Y_VALUE].append(i[Y_VALUE])
+    plt.fill(region[X_VALUE],region[Y_VALUE],REGION_COLOR)
 
     #view set-up
-    plt.xlim(0-abs(axis[0])*0.1,abs(axis[0])*1.1)
-    plt.ylim(0-abs(axis[1])*0.1,abs(axis[1])*1.1)
+    plt.xlim(START-abs(axis[X_VALUE])*LEFT_VIEW,abs(axis[X_VALUE])*RIGHT_VIEW)
+    plt.ylim(START-abs(axis[Y_VALUE])*LEFT_VIEW,abs(axis[Y_VALUE])*RIGHT_VIEW)
     plt.grid(True)
     plt.show()
+
+def change_sign(number):
+    return -1*number
+
 
 #examples
 plot_graph(["4","x*0+4"],[[0,0],[0,4],[4,4],[4,0]],[4,4],3)
