@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 
 
 #Constant definition
+GRID=True
 LIMIT=0.1
 LEFT_VIEW=0.1
 RIGHT_VIEW=1.1
@@ -52,7 +53,7 @@ def plot_graph(inequalities,intersections,axis,view):
     #view set-up
     plt.xlim(START-abs(axis[X_VALUE])*LEFT_VIEW,abs(axis[X_VALUE])*RIGHT_VIEW)
     plt.ylim(START-abs(axis[Y_VALUE])*LEFT_VIEW,abs(axis[Y_VALUE])*RIGHT_VIEW)
-    plt.grid(True)
+    plt.grid(GRID)
     plt.show()
 
 def change_sign(number):
