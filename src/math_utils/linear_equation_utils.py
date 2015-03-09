@@ -1,4 +1,4 @@
-__author__ = 'Fernando Segovia'
+__author__ = 'fsegovia'
 
 SLOPE_INDEX = 0
 CONSTANT_INDEX = 1
