@@ -3,8 +3,7 @@ from tkinter import Tk
 from tkinter.filedialog import askopenfilename
 
 class fileChooser:
-    def _init_(self):
-        self.fileName=""
+    __fileName=""
         
     def show_fileChooser(self):
         """
@@ -13,7 +12,7 @@ class fileChooser:
         
         """
         Tk().withdraw()
-        self.fileName=tkinter.filedialog.askopenfilename()
+        self.__fileName=tkinter.filedialog.askopenfilename()
 
     def get_fileName(self):
         """
@@ -21,10 +20,9 @@ class fileChooser:
         :return: The file path, it could be an empty string
         
         """
-        return self.fileName
+        return self.__fileName
 
 #example
 test=fileChooser()
 test.show_fileChooser()
 print(test.get_fileName())
-
