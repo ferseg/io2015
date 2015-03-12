@@ -7,3 +7,4 @@ from .vector_utils import division
 from .vector_utils import multiply_number_by_vector
 from .vector_utils import add_vectors
 from .vector_utils import subtract_vectors
+from .vector_utils import count_appearences_in_array

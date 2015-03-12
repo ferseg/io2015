@@ -8,9 +8,10 @@ def multiply_number_by_vector(n, vector):
     :param vector:
     :return:
     """
+    result = []
     for index in range(0, len(vector)):
-        vector[index] *= n
-    return vector
+        result.append(vector[index] * n)
+    return result
 
 
 def add(a, b):
@@ -21,10 +22,19 @@ def deduct(a, b):
     return a - b
 
 
+# MODIFIED TO USE WITH SIMPLEX
 def division(a, b):
-    if b != 0:
+    if b > 0:
         return a / b
     return 99999999
+
+
+def count_appearences_in_array(number, array):
+    appearences = 0
+    for index in range(0, len(array)):
+        if array[index] == number:
+            appearences += 1
+    return appearences
 
 
 def exec_function_in_each_position(vector1, vector2, function):
