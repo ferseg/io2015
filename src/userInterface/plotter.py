@@ -59,14 +59,49 @@ def plot_graph(inequalities,intersections,axis,view):
 def change_sign(number):
     return -1*number
 
+def sort_intersections(point,intersections):
+    temp=get_next_intersection(point,intersections,Y_VALUE)
+    if temp==[]:
+        temp=get_minList(intersections,X_VALUE)
+    return temp
+
+def get_next_intersection(point,intersections,index):
+    tempList=[]
+    for i in intersections:
+        if point[0]==i[0]:
+            tempList.append(i)
+    if len(tempList)==0:
+        return [] #no intersections were found
+    elif len(tempList)==1:
+        return tempList[0]
+    else:
+        return get_minList(tempList,index)
+
+def get_minList(values,index):
+    """
+    Gets the list with the minimun value in the index provided
+    :param values: List of lists
+    """
+    temp=values[0]
+    for i in values:
+        if i[index]<temp[index]:
+            temp=i
+    return temp
 
 #examples
-plot_graph(["4","x*0+4"],[[0,0],[0,4],[4,4],[4,0]],[4,4],3)
-plot_graph(["x","8-x"],[[0,0],[0,8],[4,4]],[8,8],3)
-plot_graph(["10-x","20-x"],[[10,0],[20,0],[0,20],[0,10]],[20,20],3)
-plot_graph(["10000-x"],[[0,0],[10000,0],[0,10000]],[10000,10000],3)
-plot_graph(["9-x","8","x*0+8","2-x","x"],[[0,2],[0,8],[1,8],[4.5,4.5],[1,1]],[9,9],3)
+##plot_graph(["4","x*0+4"],[[0,0],[0,4],[4,4],[4,0]],[4,4],3)
+##plot_graph(["x","8-x"],[[0,0],[0,8],[4,4]],[8,8],3)
+##plot_graph(["10-x","20-x"],[[10,0],[20,0],[0,20],[0,10]],[20,20],3)
+##plot_graph(["10000-x"],[[0,0],[10000,0],[0,10000]],[10000,10000],3)
+##plot_graph(["9-x","8","x*0+8","2-x","x"],[[0,2],[0,8],[1,8],[4.5,4.5],[1,1]],[9,9],3)
+
+#plot_graph(["18-2*x","(42-2*x)/3","24-3*x"],[[0,0],[8,0],[6,6],[3,12],[0,14]],[20,20],3)
+
+#plot_graph(["(24-6*x)/4","(6-x)/2","1+x","2+0*x"],[[0,0],[4,0],[3,1.5],[2,2],[1,2],[0,1]],[6,6],3)
 
 
 
+
+#next_intersection([0,0],[[0,0],[0,4],[4,4],[4,0]])
+#next_intersection([0,0],[[0,4],[4,4],[4,0]])
 
