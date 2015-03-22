@@ -2,10 +2,13 @@ from fileReader import *
 
 VARS=["z","x","y"]
 
+COMPARISON_OPERATORS = [">","<"]
 MUL_OPERATOR = "*"
 SUM_OPERATOR = "+"
 EQ_OPERATOR = "="
 NO_OPERATOR = ""
+
+ERROR_CONTENIDO = "El archivo posee caracteres inválidos"
 
 class readerLP(FileReader):
     'Reads Linear Programming files'
@@ -15,13 +18,15 @@ class readerLP(FileReader):
         self.__objective=""
         self.__inequations=[]
         self.__maxmin=0
+        self.__error=""
 
     def clear_data():
         self.__validity=True
         self.__objective=""
         self.__inequations=[]
         self.__maxmin=0
-
+        self.__error=""
+        
     def get_LP(self):
         try:
             lines=self.readLines()
@@ -36,10 +41,13 @@ class readerLP(FileReader):
             #gets the inequations
             self.get_LP_Inequations(lines)
 
+            return 1 #sucess
         except:
             #invalid file
-            print("cromó")
+            self.__validity = False
+            self.__error = ERROR_CONTENIDO
             #invalid file
+            return 0 #failure
 
     def get_maxmin(self,string):
         self.check_int(string)
@@ -51,17 +59,21 @@ class readerLP(FileReader):
     def get_LP_Function(self,lines):
         cont = 0
         temp = ""
-        for i in lines:
-            self.check_int(i)
-            if cont == 0:
-                self.__objective =  append_var(NO_OPERATOR,VARS[cont],i) + EQ_OPERATOR
-            elif cont == 1 or temp == "":
-                temp +=  append_var(NO_OPERATOR,VARS[cont],i)
-            else:
-                temp += append_var(SUM_OPERATOR,VARS[cont],i)
-            cont+=1
-        self.__objective += temp
-        return lines
+        if len(lines)==3:
+            for i in lines:
+                self.check_int(i)
+                if cont == 0:
+                    self.__objective =  append_var(NO_OPERATOR,VARS[cont],i) + EQ_OPERATOR
+                elif cont == 1 or temp == "":
+                    temp +=  append_var(NO_OPERATOR,VARS[cont],i)
+                else:
+                    temp += append_var(SUM_OPERATOR,VARS[cont],i)
+                cont+=1
+            self.__objective += temp
+            return lines
+        else:
+            self.__validity = False
+            self.__error = ERROR_CONTENIDO
 
     def get_LP_Inequations(self,lines):
         cont=0
@@ -75,17 +87,37 @@ class readerLP(FileReader):
     def list_to_inequation(self,lines):
         cont = 0
         temp = ""
-        while cont < 2:
-            self.check_int(lines[cont])
-            if cont == 0 or temp == "":
-                temp += append_var(NO_OPERATOR,VARS[cont+1],lines[cont])
-            else:
-                temp += append_var(SUM_OPERATOR,VARS[cont+1],lines[cont])
-            cont+=1
-        lines=lines[2:]
-        for i in lines:
-            temp += i
-        self.__inequations.append(temp)
+        if len(lines)==5:
+            while cont < 2:
+                self.check_int(lines[cont])
+                if cont == 0 or temp == "":
+                    temp += append_var(NO_OPERATOR,VARS[cont+1],lines[cont])
+                else:
+                    temp += append_var(SUM_OPERATOR,VARS[cont+1],lines[cont])
+                cont+=1
+            lines=lines[2:]
+            if lines[0] in COMPARISON_OPERATORS == False:
+                self.__validity = False
+                self.__error = ERROR_CONTENIDO
+                return
+            temp += lines[0]
+            lines = lines[1:]
+            if lines[0] != "=":
+                self.__validity = False
+                self.__error = ERROR_CONTENIDO
+                return
+            temp += lines[0]
+            lines = lines[1:]
+            if lines[0] == []:
+                self.__validity = False
+                self.__error = ERROR_CONTENIDO
+                return
+            self.check_int(lines[0])
+            temp += lines[0]
+            self.__inequations.append(temp)
+        else:
+            self.__validity = False
+            self.__error = ERROR_CONTENIDO         
 
     def check_int(self,string):
         """
@@ -106,13 +138,16 @@ class readerLP(FileReader):
         return j
 
     def to_string(self):
-        print("Validez: " + str(self.__validity))
-        print("Max o Min: " + str(self.__maxmin))
-        print("FO: " + str(self.__objective))
-        print("Inequations: " + str(self.__inequations))
+        if self.__validity:
+            print("Validez: " + str(self.__validity))
+            print("Max o Min: " + str(self.__maxmin))
+            print("FO: " + str(self.__objective))
+            print("Inequations: " + str(self.__inequations))
+        else:
+            print(self.__error)
 
 def append_var(operator,var,number):
-    """ appends number * variable, example 4*x """
+    """ appends number * variable, for example 4*x """
     temp = ""
     if number == "0":
         temp = ""
@@ -124,6 +159,6 @@ def append_var(operator,var,number):
     return temp
 
 #example
-#a=readerLP("C:/Users/Kenneth/Desktop/test2.txt","r")
-#a.get_LP()
-#a.to_string()
+a=readerLP("C:/Users/Kenneth/Desktop/test2.txt","r")
+a.get_LP()
+a.to_string()
