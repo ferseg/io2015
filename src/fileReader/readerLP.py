@@ -14,11 +14,7 @@ class readerLP(FileReader):
     'Reads Linear Programming files'
     def __init__(self, fileName, options):
         self.file = open(fileName, options)
-        self.__validity=True
-        self.__objective=""
-        self.__inequations=[]
-        self.__maxmin=0
-        self.__error=""
+        self.clear_data()
 
     def get_validity(self):
         return self.__validity
@@ -29,7 +25,7 @@ class readerLP(FileReader):
     def get_inequations(self):
         return self.__inequations
 
-    def clear_data():
+    def clear_data(self):
         self.__validity=True
         self.__objective=""
         self.__inequations=[]
@@ -37,6 +33,7 @@ class readerLP(FileReader):
         self.__error=""
         
     def get_LP(self):
+        self.clear_data()
         try:
             lines=self.readLines()
             #defines if we need to maximize or minimize the function
@@ -168,12 +165,12 @@ def append_var(operator,var,number):
     return temp
 
 #example
-#a=readerLP("C:/Users/Kenneth/Desktop/test2.txt","r")
-#a.get_LP()
-#a.to_string()
+a=readerLP("C:/Users/Kenneth/Desktop/test2.txt","r")
+a.get_LP()
+a.to_string()
 
 #getting data
-#a.get_validity()
-#a.get_maxmin()
-#a.get_FO()
-#a.get_inequations()
+a.get_validity()
+a.get_maxmin()
+a.get_FO()
+a.get_inequations()
