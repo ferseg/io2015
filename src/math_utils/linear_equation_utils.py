@@ -22,7 +22,6 @@ def eval_intersections(inequations,intersections):
                 break
         if validity:
             temp += [i]
-    print(temp)
     return temp
 
 def eval_expression(op,val1,val2):
@@ -31,8 +30,8 @@ def eval_expression(op,val1,val2):
 def get_operator(op):
     return OPERATORS[op]
 
-eval_intersections([[1.0,0.0,">=",0.0],
-                    [0.0,1.0,">=",0.0],
-                    [1.0, 0.0, '<=', 4.0],
-                    [0.0, 1.0, '<=', 4.0]],
-                   [[-1,-2],[0,4],[0,0],[4,0],[5,2],[4,4],[5,-1]])
+print(eval_intersections([[1.0,0.0,">=",0.0],
+                         [0.0,1.0,">=",0.0],
+                         [1.0, 0.0, '<=', 4.0],
+                         [0.0, 1.0, '<=', 4.0]],
+                        [[-1,-2],[0,4],[0,0],[4,0],[5,2],[4,4],[5,-1]]))
