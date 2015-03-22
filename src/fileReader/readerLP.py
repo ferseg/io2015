@@ -1,4 +1,4 @@
-__author__ = 'fsegovia'
+from fileReader import *
 
 VARS=["z","x","y"]
 
@@ -7,7 +7,7 @@ SUM_OPERATOR = "+"
 EQ_OPERATOR = "="
 NO_OPERATOR = ""
 
-class FileReader():
+class readerLP(FileReader):
     'Reads files'
     def __init__(self, fileName, options):
         self.file = open(fileName, options)
@@ -15,15 +15,6 @@ class FileReader():
         self.__objective=""
         self.__inequations=[]
         self.__maxmin=0
-        
-    def closeFile(self):
-        self.file.close()
-
-    def readLines(self):
-        lines = self.file.readlines()
-        self.closeFile()
-        lines = self.remove_endOfLines(lines)
-        return lines
 
     def clear_data():
         self.__validity=True
@@ -53,6 +44,7 @@ class FileReader():
             #invalid file
             print("cromó")
             #invalid file
+        self.helloWorld()
 
     def get_maxmin(self,string):
         self.check_int(string)
@@ -117,11 +109,6 @@ class FileReader():
         for i in lines:
             j+=[i.replace("\n","")]
         return j
-    
-    @staticmethod
-    def helloWorld():
-        print("Hello yo")
-
 
 def append_var(operator,var,number):
     """ appends number * variable, example 4*x """
@@ -135,5 +122,5 @@ def append_var(operator,var,number):
     temp = temp.replace("+-","-") 
     return temp
     
-a=FileReader("C:/Users/Kenneth/Desktop/test2.txt","r")
+a=readerLP("C:/Users/Kenneth/Desktop/test2.txt","r")
 a.get_LP()
