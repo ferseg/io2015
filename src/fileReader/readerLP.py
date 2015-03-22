@@ -27,7 +27,7 @@ class readerLP(FileReader):
 
     def clear_data(self):
         self.validity=True
-        self.__objective=""
+        self.__objective=[]
         self.__inequations=[]
         self.__maxmin=0
         self.__error=""
@@ -59,20 +59,10 @@ class readerLP(FileReader):
         self.__maxmin = number
 
     def get_LP_Function(self,lines):
-        cont = 0
-        temp = ""
         if len(lines)==3:
             for i in lines:
                 self.check_int(i)
-                if cont == 0:
-                    self.__objective =  append_var(NO_OPERATOR,VARS[cont],i) + EQ_OPERATOR
-                elif cont == 1 or temp == "":
-                    temp +=  append_var(NO_OPERATOR,VARS[cont],i)
-                else:
-                    temp += append_var(SUM_OPERATOR,VARS[cont],i)
-                cont+=1
-            self.__objective += temp
-            return lines
+                self.__objective += [float(i)]
         else:
             self.set_warning()
 
@@ -81,40 +71,33 @@ class readerLP(FileReader):
         temp=lines[:5]
         while len(lines)>0:
             temp=lines[:5]
-            self.list_to_inequation(temp)
+            self.list_to_inequation(temp,2)
             lines=lines[5:]
         return
 
-    def list_to_inequation(self,lines):
+    def list_to_inequation(self,lines,variables):
         cont = 0
-        temp = ""
+        temp = []
+        temp2 = ""
         if len(lines)==5:
-            while cont < 2:
+            while cont<variables:
                 self.check_int(lines[cont])
-                if cont == 0 or temp == "":
-                    temp += append_var(NO_OPERATOR,VARS[cont+1],lines[cont])
-                else:
-                    temp += append_var(SUM_OPERATOR,VARS[cont+1],lines[cont])
-                cont+=1
-            lines=lines[2:]
-            if lines[0] in COMPARISON_OPERATORS == False:
-                self.set_warning()
-                return
-            temp += lines[0]
-            lines = lines[1:]
-            if lines[0] != "=":
-                self.set_warning()
-                return
-            temp += lines[0]
-            lines = lines[1:]
-            if lines[0] == []:
-                self.set_warning()
-                return
-            self.check_int(lines[0])
-            temp += lines[0]
-            self.__inequations.append(temp)
-        else:
-            self.set_warning()
+                temp += [float(lines[cont])]
+                cont += 1
+            lines = lines[variables:]
+            if lines[0] in COMPARISON_OPERATORS:
+                if lines[1] == EQ_OPERATOR:
+                    temp2 += lines[0] + lines[1]
+                    self.check_int(lines[2])
+                    temp += [temp2] + [float(lines[2])]                
+                    cont = 0
+                    while cont<variables:
+                        if temp[cont]!=0:
+                            self.__inequations += [temp]
+                            return
+                        cont += 1
+                    return
+        self.set_warning()
 
     def check_int(self,string):
         """
@@ -150,9 +133,9 @@ def append_var(operator,var,number):
     return temp
 
 #example
-#a=readerLP("C:/Users/Kenneth/Desktop/test2.txt","r")
-#a.get_LP()
-#a.to_string()
+a=readerLP("C:/Users/Kenneth/Desktop/test2.txt","r")
+a.get_LP()
+a.to_string()
 
 #getting data
 #a.get_validity()
