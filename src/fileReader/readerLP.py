@@ -8,7 +8,7 @@ SUM_OPERATOR = "+"
 EQ_OPERATOR = "="
 NO_OPERATOR = ""
 
-ERROR_CONTENIDO = "El archivo posee caracteres inválidos"
+CONTENT_ERROR = "El archivo posee caracteres inválidos"
 
 class readerLP(FileReader):
     'Reads Linear Programming files'
@@ -48,18 +48,14 @@ class readerLP(FileReader):
             self.get_LP_Inequations(lines)
         except:
             #invalid file
-            self.validity = False
-            self.__error = ERROR_CONTENIDO
+            self.set_warning()
             #invalid file
-        #True or False
-        return self.validity
 
     def get_LP_maxmin(self,string):
         self.check_int(string)
         number = int(string)
         if number > 1 or number < 0:
-            self.validity = False
-            self.__error = ERROR_CONTENIDO
+            self.set_warning()
         self.__maxmin = number
 
     def get_LP_Function(self,lines):
@@ -78,8 +74,7 @@ class readerLP(FileReader):
             self.__objective += temp
             return lines
         else:
-            self.validity = False
-            self.__error = ERROR_CONTENIDO
+            self.set_warning()
 
     def get_LP_Inequations(self,lines):
         cont=0
@@ -103,37 +98,36 @@ class readerLP(FileReader):
                 cont+=1
             lines=lines[2:]
             if lines[0] in COMPARISON_OPERATORS == False:
-                self.validity = False
-                self.__error = ERROR_CONTENIDO
+                self.set_warning()
                 return
             temp += lines[0]
             lines = lines[1:]
             if lines[0] != "=":
-                self.validity = False
-                self.__error = ERROR_CONTENIDO
+                self.set_warning()
                 return
             temp += lines[0]
             lines = lines[1:]
             if lines[0] == []:
-                self.validity = False
-                self.__error = ERROR_CONTENIDO
+                self.set_warning()
                 return
             self.check_int(lines[0])
             temp += lines[0]
             self.__inequations.append(temp)
         else:
-            self.validity = False
-            self.__error = ERROR_CONTENIDO         
+            self.set_warning()
 
     def check_int(self,string):
         """
-        checks that the string can be converted to a int
+        checks that the string can be converted to a float
         """
         try:
             float(string)
         except:
-            self.validity = False
-            self.__error = ERROR_CONTENIDO
+            self.set_warning()
+
+    def set_warning(self):
+        self.validity = False
+        self.__error = CONTENT_ERROR
 
     def to_string(self):
         if self.validity:
@@ -146,20 +140,19 @@ class readerLP(FileReader):
 
 def append_var(operator,var,number):
     """ appends number * variable, for example 4*x """
-    temp = ""
     if number == "0":
-        temp = ""
+        return ""
     elif number == "1":
-        temp = operator+var
+        return operator+var
     else:
         temp = operator+number+MUL_OPERATOR+var
     temp = temp.replace("+-","-")
     return temp
 
 #example
-a=readerLP("C:/Users/Kenneth/Desktop/test2.txt","r")
-a.get_LP()
-a.to_string()
+#a=readerLP("C:/Users/Kenneth/Desktop/test2.txt","r")
+#a.get_LP()
+#a.to_string()
 
 #getting data
 #a.get_validity()
