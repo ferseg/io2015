@@ -11,8 +11,8 @@ class Demo1( Frame ):
         self.button1 = Button( self, text = "Button 1", width = 25,
                                command = self.new_window )
         self.button1.grid( row = 0, column = 1, columnspan = 2, sticky = W+E+N+S )
-        self.minsize(300,300)
-        self.maxsize(300,300)
+        #self.minsize(300,300)
+        #self.maxsize(300,300)
         
     def new_window(self):
         self.newWindow = Demo2()
