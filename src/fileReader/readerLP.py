@@ -36,15 +36,10 @@ class readerLP(FileReader):
             #gets the inequations
             self.get_LP_Inequations(lines)
 
-            print(self.__maxmin)
-            print(self.__objective)
-            print(self.__validity)
-            print(self.__inequations)
         except:
             #invalid file
             print("cromó")
             #invalid file
-        self.helloWorld()
 
     def get_maxmin(self,string):
         self.check_int(string)
@@ -110,6 +105,12 @@ class readerLP(FileReader):
             j+=[i.replace("\n","")]
         return j
 
+    def to_string(self):
+        print("Validez: " + str(self.__validity))
+        print("Max o Min: " + str(self.__maxmin))
+        print("FO: " + str(self.__objective))
+        print("Inequations: " + str(self.__inequations))
+
 def append_var(operator,var,number):
     """ appends number * variable, example 4*x """
     temp = ""
@@ -121,6 +122,8 @@ def append_var(operator,var,number):
         temp = operator+number+MUL_OPERATOR+var
     temp = temp.replace("+-","-")
     return temp
-    
-a=readerLP("C:/Users/Kenneth/Desktop/test2.txt","r")
-a.get_LP()
+
+#example
+#a=readerLP("C:/Users/Kenneth/Desktop/test2.txt","r")
+#a.get_LP()
+#a.to_string()
