@@ -20,6 +20,15 @@ class readerLP(FileReader):
         self.__maxmin=0
         self.__error=""
 
+    def get_validity(self):
+        return self.__validity
+    def get_maxmin(self):
+        return self.__maxmin
+    def get_FO(self):
+        return self.__objective
+    def get_inequations(self):
+        return self.__inequations
+
     def clear_data():
         self.__validity=True
         self.__objective=""
@@ -31,7 +40,7 @@ class readerLP(FileReader):
         try:
             lines=self.readLines()
             #defines if we need to maximize or minimize the function
-            self.get_maxmin(lines[0])
+            self.get_LP_maxmin(lines[0])
             lines=lines[1:]
 
             #gets the objective function
@@ -40,20 +49,20 @@ class readerLP(FileReader):
 
             #gets the inequations
             self.get_LP_Inequations(lines)
-
-            return 1 #sucess
         except:
             #invalid file
             self.__validity = False
             self.__error = ERROR_CONTENIDO
             #invalid file
-            return 0 #failure
+        #True or False
+        return self.__validity
 
-    def get_maxmin(self,string):
+    def get_LP_maxmin(self,string):
         self.check_int(string)
         number = int(string)
         if number > 1 or number < 0:
             self.__validity = False
+            self.__error = ERROR_CONTENIDO
         self.__maxmin = number
 
     def get_LP_Function(self,lines):
@@ -159,6 +168,12 @@ def append_var(operator,var,number):
     return temp
 
 #example
-a=readerLP("C:/Users/Kenneth/Desktop/test2.txt","r")
-a.get_LP()
-a.to_string()
+#a=readerLP("C:/Users/Kenneth/Desktop/test2.txt","r")
+#a.get_LP()
+#a.to_string()
+
+#getting data
+#a.get_validity()
+#a.get_maxmin()
+#a.get_FO()
+#a.get_inequations()
