@@ -8,7 +8,7 @@ EQ_OPERATOR = "="
 NO_OPERATOR = ""
 
 class readerLP(FileReader):
-    'Reads files'
+    'Reads Linear Programming files'
     def __init__(self, fileName, options):
         self.file = open(fileName, options)
         self.__validity=True
@@ -119,7 +119,7 @@ def append_var(operator,var,number):
         temp = operator+var
     else:
         temp = operator+number+MUL_OPERATOR+var
-    temp = temp.replace("+-","-") 
+    temp = temp.replace("+-","-")
     return temp
     
 a=readerLP("C:/Users/Kenneth/Desktop/test2.txt","r")
