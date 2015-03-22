@@ -165,12 +165,12 @@ def append_var(operator,var,number):
     return temp
 
 #example
-a=readerLP("C:/Users/Kenneth/Desktop/test2.txt","r")
-a.get_LP()
-a.to_string()
+#a=readerLP("C:/Users/Kenneth/Desktop/test2.txt","r")
+#a.get_LP()
+#a.to_string()
 
 #getting data
-a.get_validity()
-a.get_maxmin()
-a.get_FO()
-a.get_inequations()
+#a.get_validity()
+#a.get_maxmin()
+#a.get_FO()
+#a.get_inequations()
