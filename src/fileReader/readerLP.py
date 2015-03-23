@@ -1,12 +1,8 @@
 from fileReader import *
 
-VARS=["z","x","y"]
-
 COMPARISON_OPERATORS = [">","<"]
-MUL_OPERATOR = "*"
-SUM_OPERATOR = "+"
 EQ_OPERATOR = "="
-NO_OPERATOR = ""
+
 
 CONTENT_ERROR = "El archivo posee caracteres inválidos"
 
@@ -121,21 +117,10 @@ class readerLP(FileReader):
         else:
             print(self.__error)
 
-def append_var(operator,var,number):
-    """ appends number * variable, for example 4*x """
-    if number == "0":
-        return ""
-    elif number == "1":
-        return operator+var
-    else:
-        temp = operator+number+MUL_OPERATOR+var
-    temp = temp.replace("+-","-")
-    return temp
-
 #example
-#a=readerLP("C:/Users/Kenneth/Desktop/test2.txt","r")
-#a.get_LP()
-#a.to_string()
+a=readerLP("C:/Users/Kenneth/Desktop/test2.txt","r")
+a.get_LP()
+a.to_string()
 
 #getting data
 #a.get_validity()
