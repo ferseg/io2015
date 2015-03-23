@@ -30,6 +30,7 @@ def eval_expression(op,val1,val2):
 def get_operator(op):
     return OPERATORS[op]
 
+#example
 print(eval_intersections([[1.0,0.0,">=",0.0],
                          [0.0,1.0,">=",0.0],
                          [1.0, 0.0, '<=', 4.0],
