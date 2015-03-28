@@ -6,6 +6,7 @@ from scipy.spatial import ConvexHull
 #Constant definition
 GRID=True
 LIMIT=0.1
+VIEW=3
 LEFT_VIEW=0.1
 RIGHT_VIEW=1.1
 X_VALUE=0
@@ -15,10 +16,10 @@ DOTS_SIZE=10
 DOTS_CONFIG="go"
 LINE_COLOR="k"
 LINE_STYLE="dashed"
-REGION_COLOR="red"
+REGION_COLOR="blue"
 TITLE="Graficador"
 
-def plot_graph(inequalities,intersections,axis,view):
+def plot_graph(inequalities,intersections,axis):
     """
     
     :param inequalities: list with inequalities.
@@ -31,7 +32,7 @@ def plot_graph(inequalities,intersections,axis,view):
     plt.title(TITLE)
     plt.axhline(y=START,color=LINE_COLOR)
     plt.axvline(x=START,color=LINE_COLOR)
-    x = np.arange(change_sign(view*max(axis)),view*max(axis),LIMIT)
+    x = np.arange(change_sign(VIEW*max(axis)),VIEW*max(axis),LIMIT)
     
     #plotting inequalities
     for i in inequalities:
@@ -63,12 +64,12 @@ def change_sign(number):
 
 
 #examples
-plot_graph(["4","x*0+4"],[[4,4],[4,0],[0,0],[0,4]],[4,4],3)
-plot_graph(["x","8-x"],[[0,0],[0,8],[4,4]],[8,8],3)
-plot_graph(["10-x","20-x"],[[20,0],[0,20],[10,0],[0,10]],[20,20],3)
-plot_graph(["10000-x"],[[0,0],[10000,0],[0,10000]],[10000,10000],3)
-plot_graph(["9-x","8","x*0+8","2-x","x"],[[4.5,4.5],[0,2],[0,8],[1,8],[1,1]],[9,9],3)
-plot_graph(["18-2*x","(42-2*x)/3","24-3*x"],[[0,0],[8,0],[3,12],[0,14],[6,6]],[20,20],3)
-plot_graph(["(24-6*x)/4","(6-x)/2","1+x","2+0*x"],[[4,0],[3,1.5],[0,0],[2,2],[1,2],[0,1]],[6,6],3)
+plot_graph(["4","x*0+4"],[[4,4],[4,0],[0,0],[0,4]],[4,4])
+plot_graph(["x","8-x"],[[0,0],[0,8],[4,4]],[8,8])
+plot_graph(["10-x","20-x"],[[20,0],[0,20],[10,0],[0,10]],[20,20])
+plot_graph(["10000-x"],[[0,0],[10000,0],[0,10000]],[10000,10000])
+plot_graph(["9-x","8","x*0+8","2-x","x"],[[4.5,4.5],[0,2],[0,8],[1,8],[1,1]],[9,9])
+plot_graph(["18-2*x","(42-2*x)/3","24-3*x"],[[0,0],[8,0],[3,12],[0,14],[6,6]],[20,20])
+plot_graph(["(24-6*x)/4","(6-x)/2","1+x","2+0*x"],[[4,0],[3,1.5],[0,0],[2,2],[1,2],[0,1]],[6,6])
 
 

@@ -1,36 +1,33 @@
-import tkinter as tk
-from tkinter import *
-from tkinter import ttk
+from tkinter import Tk, Label, Button
+from fileChooser import *
 
-
-class Demo1( Frame ):
-    def __init__( self ):
-        tk.Frame.__init__(self)
-        self.pack()
-        self.master.title("Demo 1")
-        self.button1 = Button( self, text = "Button 1", width = 25,
-                               command = self.new_window )
-        self.button1.grid( row = 0, column = 1, columnspan = 2, sticky = W+E+N+S )
-        #self.minsize(300,300)
-        #self.maxsize(300,300)
-        
-    def new_window(self):
-        self.newWindow = Demo2()
-
-class Demo2(Frame):     
+class mainMenu:
     def __init__(self):
-        new =tk.Frame.__init__(self)
-        new = Toplevel(self)
-        new.title("Demo 2")
-        new.button = tk.Button(  text = "Button 2", width = 25,
-                                 command = self.close_window )
-        new.button.pack()
+        self.master = Tk()
+        self.master.title("Investigación de Operaciones")
+        self.fileChooser = fileChooser()
+        
+        self.label = Label(self.master, text="This is our first GUI!")
+        self.label.pack()
 
-    def close_window(self):
-        self.destroy()
+        self.LP_button = Button(self.master, text="Programación Lineal",
+                                   command=self.open_fileChooser)
+        self.LP_button.pack()
 
-def main(): 
-    Demo1().mainloop()
+        self.close_button = Button(self.master, text="Cerrar",
+                                   command=self.destroy_window)
+        self.close_button.pack()
 
-if __name__ == '__main__':
-    main()
+        self.master.mainloop()
+
+    def open_fileChooser(self):
+        self.fileChooser.show_fileChooser()
+        print(self.fileChooser.get_fileName())
+
+    def destroy_window(self):
+        self.master.destroy()
+
+my_gui = mainMenu()
+
+
+
