@@ -1,5 +1,7 @@
 out/**
 .DS_Store
-.idea/**
 META-INF/**
 **.xml
+.idea
+.out
+*.xml
