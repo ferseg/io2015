@@ -66,8 +66,8 @@ def matrix_to_inequation(matrix):
     inequations = []
     for element in matrix:
         if element[X_VALUE] == 0:
-            inequations += ["x*0+"+str(element[Z_VALUE])]
+            inequations += ["x*0+"+str(element[Z_VALUE]/element[Y_VALUE])]
         elif element[Y_VALUE] == 0:
-            inequations += [str(element[Z_VALUE])]
+            inequations += [str(element[Z_VALUE]/element[X_VALUE])]
     print(inequations)
 
