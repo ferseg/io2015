@@ -4,20 +4,21 @@ import matplotlib.pyplot as plt
 from scipy.spatial import ConvexHull
 
 #Constant definition
-GRID=True
-LIMIT=0.1
-VIEW=3
-LEFT_VIEW=0.1
-RIGHT_VIEW=1.1
-X_VALUE=0
-Y_VALUE=1
-START=0
-DOTS_SIZE=10
-DOTS_CONFIG="go"
-LINE_COLOR="k"
-LINE_STYLE="dashed"
-REGION_COLOR="blue"
-TITLE="Graficador"
+GRID = True
+LIMIT = 0.1
+VIEW = 3
+LEFT_VIEW = 0.1
+RIGHT_VIEW = 1.1
+X_VALUE = 0
+Y_VALUE = 1
+Z_VALUE = 3
+START = 0
+DOTS_SIZE = 10
+DOTS_CONFIG = "go"
+LINE_COLOR = "k"
+LINE_STYLE = "dashed"
+REGION_COLOR = "blue"
+TITLE = "Graficador"
 
 def plot_graph(inequalities,intersections,axis):
     """
@@ -26,7 +27,6 @@ def plot_graph(inequalities,intersections,axis):
     :param intersections: list with intersections of the inecualities.
     :param axis: list containing the maximum values of the intersections
     on the inequalities and the X and Y axis. Format: [maxX,maxY].
-    :param view: will determine the length of the plotted graphs.
 
     """
     plt.title(TITLE)
@@ -46,7 +46,7 @@ def plot_graph(inequalities,intersections,axis):
         plt.plot(i[X_VALUE],i[Y_VALUE],DOTS_CONFIG,markersize=DOTS_SIZE)
 
     #paints feasible region
-    region=[[],[]]
+    region = [[],[]]
     hull = ConvexHull(intersections)
     for i in hull.vertices:
         region[X_VALUE].append(intersections[i][X_VALUE])
@@ -62,14 +62,12 @@ def plot_graph(inequalities,intersections,axis):
 def change_sign(number):
     return -1*number
 
-
-#examples
-plot_graph(["4","x*0+4"],[[4,4],[4,0],[0,0],[0,4]],[4,4])
-plot_graph(["x","8-x"],[[0,0],[0,8],[4,4]],[8,8])
-plot_graph(["10-x","20-x"],[[20,0],[0,20],[10,0],[0,10]],[20,20])
-plot_graph(["10000-x"],[[0,0],[10000,0],[0,10000]],[10000,10000])
-plot_graph(["9-x","8","x*0+8","2-x","x"],[[4.5,4.5],[0,2],[0,8],[1,8],[1,1]],[9,9])
-plot_graph(["18-2*x","(42-2*x)/3","24-3*x"],[[0,0],[8,0],[3,12],[0,14],[6,6]],[20,20])
-plot_graph(["(24-6*x)/4","(6-x)/2","1+x","2+0*x"],[[4,0],[3,1.5],[0,0],[2,2],[1,2],[0,1]],[6,6])
-
+def matrix_to_inequation(matrix):
+    inequations = []
+    for element in matrix:
+        if element[X_VALUE] == 0:
+            inequations += ["x*0+"+str(element[Z_VALUE])]
+        elif element[Y_VALUE] == 0:
+            inequations += [str(element[Z_VALUE])]
+    print(inequations)
 

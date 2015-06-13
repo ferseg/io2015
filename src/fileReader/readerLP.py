@@ -3,7 +3,6 @@ from fileReader import *
 COMPARISON_OPERATORS = [">","<"]
 EQ_OPERATOR = "="
 
-
 CONTENT_ERROR = "El archivo posee caracteres inválidos"
 
 class readerLP(FileReader):
@@ -37,8 +36,8 @@ class readerLP(FileReader):
             lines=lines[1:]
 
             #gets the objective function
-            self.get_LP_Function(lines[:3])
-            lines=lines[3:]
+            self.get_LP_Function(lines[:2])
+            lines=lines[2:]
 
             #gets the inequations
             self.get_LP_Inequations(lines)
@@ -55,7 +54,7 @@ class readerLP(FileReader):
         self.__maxmin = number
 
     def get_LP_Function(self,lines):
-        if len(lines)==3:
+        if len(lines)==2:
             for i in lines:
                 self.check_int(i)
                 self.__objective += [float(i)]
@@ -75,7 +74,7 @@ class readerLP(FileReader):
         cont = 0
         temp = []
         temp2 = ""
-        if len(lines)==5:
+        if len(lines) == 5:
             while cont<variables:
                 self.check_int(lines[cont])
                 temp += [float(lines[cont])]
@@ -118,7 +117,7 @@ class readerLP(FileReader):
             print(self.__error)
 
 #example
-a=readerLP("C:/Users/Kenneth/Desktop/test2.txt","r")
+a = readerLP("test.txt","r")
 a.get_LP()
 a.to_string()
 
