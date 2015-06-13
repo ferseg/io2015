@@ -3,10 +3,20 @@ __author__ = 'fsegovia'
 # Testing
 
 
-import equationManager.linear_equations as i
+import math_utils as leu
+import simplex as si
 
 
-res = i.intersections([[2, 5], [7, -3], [3, 3]])
-print(res)
+simp = si.Simplex([1], 2)
+
+#Ejemplo 1
+#mat = [[-1,-1,-2,0,0,0,0],[2,1,1,1,0,0,50], [2,1,0,0,-1,0,36], [1,0,1,0,0,-1,10]]
+#Ejemplo 2 (VISTO EN CLASES)
+mat = [[-3, -2, 0, 0, 0, 0], [2, 1, 1, 0, 0, 18], [2, 3, 0, 1, 0, 42], [3, 1, 0, 0, 1, 24]]
+simp.set_matrix(mat)
+print(simp.start_simplex())
+print(simp.get_matrix())
+
+
 
 
