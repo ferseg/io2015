@@ -117,9 +117,11 @@ class readerLP(FileReader):
             print(self.__error)
 
 #example
+"""
 a = readerLP("test.txt","r")
 a.get_LP()
 a.to_string()
+"""
 
 #getting data
 #a.get_validity()

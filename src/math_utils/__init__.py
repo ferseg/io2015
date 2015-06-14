@@ -1,5 +1,6 @@
 __author__ = 'fsegovia'
 
+from .linear_equation_utils import eval_intersections
 from .linear_equation_utils import intersections
 from .linear_equation_utils import intersection_in_x
 from .vector_utils import exec_function_in_each_position

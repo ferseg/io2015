@@ -6,6 +6,7 @@ OPERATORS = {
             }
 X_VALUE = 0
 Y_VALUE = 1
+ROUND_VALUE = 9
 LAST_VALUE = -1
 OPERATOR_VALUE = 2
 
@@ -25,17 +26,10 @@ def eval_intersections(inequations,intersections):
     return temp
 
 def eval_expression(op,val1,val2):
-    return get_operator(op)(val1,val2)
+    return get_operator(op)(round(val1,ROUND_VALUE),round(val2,ROUND_VALUE))
 
 def get_operator(op):
     return OPERATORS[op]
-
-#example
-print(eval_intersections([[1.0,0.0,">=",0.0],
-                         [0.0,1.0,">=",0.0],
-                         [1.0, 0.0, '<=', 4.0],
-                         [0.0, 1.0, '<=', 4.0]],
-                        [[-1,-2],[0,4],[0,0],[4,0],[5,2],[4,4],[5,-1]]))
 
 
 SLOPE_INDEX = 0

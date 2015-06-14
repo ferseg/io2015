@@ -2,7 +2,11 @@ import numpy as np
 import math
 import matplotlib.pyplot as plt
 from scipy.spatial import ConvexHull
-import math_utils as leu
+
+
+#import math_utils as leu
+
+
 
 #Constant definition
 GRID = True
@@ -62,13 +66,4 @@ def plot_graph(inequalities,intersections,axis):
 
 def change_sign(number):
     return -1*number
-
-def matrix_to_inequation(matrix):
-    inequations = []
-    for element in matrix:
-        if element[X_VALUE] == 0:
-            inequations += ["x*0+"+str(element[Z_VALUE]/element[Y_VALUE])]
-        elif element[Y_VALUE] == 0:
-            inequations += [str(element[Z_VALUE]/element[X_VALUE])]
-    return inequations
 
