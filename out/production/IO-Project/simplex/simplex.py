@@ -10,8 +10,8 @@ class Simplex:
     __OBJECTIVE_FUNCTION_INDEX = 0
     __FIRST_INDEX = 0
 
-    def __init__(self, objective_function, variable_quantity):
-        self.matrix = [[1] + objective_function]
+    def __init__(self, matrix=[], variable_quantity):
+        self.matrix = matrix
         self.variable_quantity = variable_quantity
 
     def set_matrix(self, matrix):
