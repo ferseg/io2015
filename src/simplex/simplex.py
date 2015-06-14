@@ -109,7 +109,7 @@ class Simplex:
 
     def is_optimus_solution(self):
         """
-
+        Indicates that the actual solution is the optimus
         :return:
         """
         fo = self.matrix[self.__OBJECTIVE_FUNCTION_INDEX]

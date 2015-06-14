@@ -11,18 +11,22 @@ __author__ = 'fsegovia'
 
 import math_utils as leu
 import simplex as si
+import northwest_corner as nwc
 
 
 simp = si.Simplex([[-2, -1, 0, 0, 0], [1, -1, 1, 0, 10], [2, 0, 0, 1, 42]], 2)
 
+corner = nwc.NorthwestCorner([[3,5,8,10],[8,3,5,3],[4,3,10,7],[7,5,8,20]])
+corner.solve()
+corner.print_pretty_result()
 #Ejemplo 1
 #mat = [[-1,-1,-2,0,0,0,0],[2,1,1,1,0,0,50], [2,1,0,0,-1,0,36], [1,0,1,0,0,-1,10]]
 #Ejemplo 2 (VISTO EN CLASES)
 #mat = [[-3, -2, 0, 0, 0, 0], [2, 1, 1, 0, 0, 18], [2, 3, 0, 1, 0, 42], [3, 1, 0, 0, 1, 24]]
 #simp.set_matrix(mat)
-print(simp.start_simplex())
-print(simp.get_matrix())
-print(simp.solution_type)
+#print(simp.start_simplex())
+#print(simp.get_matrix())
+#print(simp.solution_type)
 
 
 
