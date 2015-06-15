@@ -57,13 +57,18 @@ def plot_graph(inequalities,intersections,axis):
         hull = ConvexHull(intersections)
 
         font0 = FontProperties()
-        font0.set_size('large')
+        font0.set_size('small')
         alignment = {'horizontalalignment':'center', 'verticalalignment':'baseline'}
-
+        text = ""
+        varX = 0
+        varY = 0
         for i in hull.vertices:
-            region[X_VALUE].append(intersections[i][X_VALUE])
-            region[Y_VALUE].append(intersections[i][Y_VALUE])
-            plt.text(intersections[i][X_VALUE],intersections[i][Y_VALUE],"asd",fontproperties=font0,**alignment)
+            varX = intersections[i][X_VALUE]
+            varY = intersections[i][Y_VALUE]
+            region[X_VALUE].append(varX)
+            region[Y_VALUE].append(varY)
+            text = "(" + str(round(varX,3)) + "," + str(round(varY,3)) + ")"
+            plt.text(varX,varY,text,fontproperties=font0,**alignment)
         plt.fill(region[X_VALUE],region[Y_VALUE],REGION_COLOR)
 
     #view set-up
