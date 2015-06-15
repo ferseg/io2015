@@ -5,30 +5,30 @@ __author__ = 'fsegovia'
 import graphicalMethod as gm
 
 
-"""
-y = gm.GraphicalMethod([2,3],[[0,1,"<=",4],[1,0,"<=",4],[1,1,"<=",4]],0)
-y.plot()
-
-y = gm.GraphicalMethod([2,3],[[1,0,"<=",4]],0)
-y.plot()
-
-y = gm.GraphicalMethod([2,3],[[0,1,"<=",4]],0)
-y.plot()
-"""
-
-
 y = gm.GraphicalMethod([0.75,1],[[1,3,"<=",15],[5,1,"<=",20],[3,4,"<=",24]],1)
 y.plot()
 
+y = gm.GraphicalMethod([0.75,1],[[0,1,"<=",5],[0,1,">=",10],[1,0,"<=",5]],1)
+y.plot()
 
-"""
+
+y = gm.GraphicalMethod([0.75,1],[[0,1,"<=",4]],1)
+y.plot()
+
+y = gm.GraphicalMethod([0.75,1],[[1,0,"<=",4]],1)
+y.plot()
+
+
+
+
+
 y = gm.GraphicalMethod([6,10],
 	[[1,0,"<=",1000],
 	[0,1,"<=",700],
 	[1,1,"<=",800],
 	[1,1,">=",200]],0)
 y.plot()
-"""
+
 
 """
 y = gm.GraphicalMethod([1,1],

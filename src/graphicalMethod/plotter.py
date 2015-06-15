@@ -2,7 +2,8 @@ import numpy as np
 import math
 import matplotlib.pyplot as plt
 from scipy.spatial import ConvexHull
-
+from matplotlib.font_manager import FontProperties
+from pylab import *
 
 #import math_utils as leu
 
@@ -52,11 +53,18 @@ def plot_graph(inequalities,intersections,axis):
 
     #paints feasible region
     region = [[],[]]
-    hull = ConvexHull(intersections)
-    for i in hull.vertices:
-        region[X_VALUE].append(intersections[i][X_VALUE])
-        region[Y_VALUE].append(intersections[i][Y_VALUE])
-    plt.fill(region[X_VALUE],region[Y_VALUE],REGION_COLOR)
+    if intersections != []:
+        hull = ConvexHull(intersections)
+
+        font0 = FontProperties()
+        font0.set_size('large')
+        alignment = {'horizontalalignment':'center', 'verticalalignment':'baseline'}
+
+        for i in hull.vertices:
+            region[X_VALUE].append(intersections[i][X_VALUE])
+            region[Y_VALUE].append(intersections[i][Y_VALUE])
+            plt.text(intersections[i][X_VALUE],intersections[i][Y_VALUE],"asd",fontproperties=font0,**alignment)
+        plt.fill(region[X_VALUE],region[Y_VALUE],REGION_COLOR)
 
     #view set-up
     plt.xlim(START-abs(axis[X_VALUE])*LEFT_VIEW,abs(axis[X_VALUE])*RIGHT_VIEW)

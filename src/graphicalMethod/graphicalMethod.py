@@ -1,6 +1,15 @@
 import graphicalMethod as gm
 import numpy as np
+import operator
 import math_utils as mu
+
+
+MAX = '>'
+MIN = '<'
+OPERATORS = {
+            MAX: operator.gt,
+            MIN: operator.lt,
+            }
 
 MAX_NUM = 99999
 
@@ -9,6 +18,7 @@ Y_AXIS_FUNCTION = [0,1,">=",0]
 X_MAX_AXIS = [1,0,"<=",MAX_NUM]
 Y_MAX_AXIS = [0,1,"<=",MAX_NUM]
 
+START = 0
 X_VALUE = 0
 Y_VALUE = 1
 Z_VALUE = 3
@@ -18,19 +28,23 @@ class GraphicalMethod:
 	Solves the Graphical Method Algorithm
 	"""
 	def __init__(self, objective_function, inequations_matrix,max_min):
-		self.max_min = max_min
+		if max_min == 0:
+			self.max_min = MIN
+		else:
+			self.max_min = MAX
 		self.objective_function = objective_function
 		self.inequations_matrix = inequations_matrix + [X_AXIS_FUNCTION] + [Y_AXIS_FUNCTION] + [X_MAX_AXIS] + [Y_MAX_AXIS]
 		self.intersections = get_intersections(self.inequations_matrix)
-		self.max_intersections = get_Max(mu.eval_intersections(self.inequations_matrix, self.intersections))
+
+		#self.max_intersections = get_Max(mu.eval_intersections(self.inequations_matrix, self.intersections))
+		
+		temp = inequations_matrix + [X_AXIS_FUNCTION] + [Y_AXIS_FUNCTION]
+		temp = get_intersections(temp)
+		self.max_intersections = get_Max(temp)
 
 	def matrix_to_inequation(self):
 	    inequations = []
 	    matrix = self.inequations_matrix
-	    #matrix.remove(X_MAX_AXIS)
-	    #matrix.remove(Y_MAX_AXIS)
-	    #matrix.remove(X_AXIS_FUNCTION)
-	    #matrix.remove(Y_AXIS_FUNCTION)
 	    for element in matrix:
 	        if element[X_VALUE] == 0:
 	            inequations += ["x*0+"+str(element[Z_VALUE]/element[Y_VALUE])]
@@ -45,13 +59,20 @@ class GraphicalMethod:
 		intersections = mu.eval_intersections(self.inequations_matrix, self.intersections)
 		maxAxis = self.max_intersections
 		
-		#print(self.intersections)
-		#print("\n\n")
-		#print(intersections)
+		result = get_FO(intersections,self.objective_function,self.max_min)
+		text = ""
+		if len(result) == 0:
+			text = "Solución no acotada."
+		elif len(result) == 1:
+			text = "El problema posee solución única."
+		else:
+			text = "El problema posee soluciónes multiples."
+		print(text)
+		for element in result:
+			print("X: " + str(element[X_VALUE]) + ". Y: " + str(element[Y_VALUE]) + ". Con un valor de: " + str(element[2]) + ".")
 		
-		#print(inequations)
-		#print(make_unique(intersections))
-		#print(maxAxis)
+
+
 		gm.plot_graph(inequations,intersections,maxAxis)
 
 def get_intersections(inequations_matrix):
@@ -65,7 +86,34 @@ def get_intersections(inequations_matrix):
 			temp = solve_eq(variables,solves)
 			if temp != []:
 				result += [temp]
-	return result
+	return make_unique(result)
+
+def get_FO(intersections,objective_function,max_min):
+	result = []
+	ofX = objective_function[X_VALUE]
+	ofY = objective_function[Y_VALUE]
+	if intersections == []:
+		return result
+	else:
+		varX = intersections[START][X_VALUE]
+		varY = intersections[START][Y_VALUE]
+		value = varX * ofX + varY * ofY
+		result += [[varX,varY,value]]
+		intersections = intersections[1:]
+		for element in intersections:
+			varX = intersections[START][X_VALUE]
+			varY = intersections[START][Y_VALUE]
+			if varX != MAX_NUM and varY != MAX_NUM:
+				value = varX * ofX + varY * ofY
+				if OPERATORS[max_min](value, result[START][2]):
+					result = [[varX,varY,value]]
+				elif value == result[START][2]:
+					result += [[varX,varY,value]]
+			else:
+				result = []
+				break
+			intersections = intersections[1:]
+		return result
 
 def solve_eq(variables,results):
 	try:
