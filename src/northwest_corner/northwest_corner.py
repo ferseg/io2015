@@ -1,3 +1,5 @@
+import math_utils as m_utils
+
 class NorthwestCorner:
 	"""docstring for NorthwestCorner"""
 
@@ -6,7 +8,7 @@ class NorthwestCorner:
 	def __init__(self, matrix):
 		self.matrix = matrix
 		self.result_index = [len(self.matrix), len(self.matrix[self.__ROW_INDEX])]
-		self.resulting_matrix = self.init_matrix(self.result_index[self.__COLUMN_INDEX]-1, self.result_index[self.__ROW_INDEX]-1)
+		self.resulting_matrix = m_utils.init_matrix(self.result_index[self.__COLUMN_INDEX]-1, self.result_index[self.__ROW_INDEX]-1)
 
 	def solve(self):
 		"""
@@ -27,16 +29,6 @@ class NorthwestCorner:
 			self.matrix[current_row][max_col] -= actual_result_weight
 			self.matrix[max_row][current_column] -= actual_result_weight
 			current_positions[multiplier_selected[0]] += 1
-
-
-	def init_matrix(self, col_quantity, row_quantity):
-		actual_quantity = 0
-		result = []
-		while actual_quantity < row_quantity:
-			new_row = [[0]*col_quantity]
-			result += new_row
-			actual_quantity+=1
-		return result
 
 
 	def get_multiplier_with_index(self, row, column):

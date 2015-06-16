@@ -73,3 +73,68 @@ def subtract_vectors(vector1, vector2):
     """
     ded = deduct
     return exec_function_in_each_position(vector1, vector2, ded)
+
+
+# Matrix
+def init_matrix(col_quantity, row_quantity):
+        actual_quantity = 0
+        result = []
+        while actual_quantity < row_quantity:
+            new_row = [[0]*col_quantity]
+            result += new_row
+            actual_quantity+=1
+        return result
+
+
+def transposed(matrix):
+    row_len = len(matrix[0])
+    col_len = len(matrix)
+    result = init_matrix(col_len, row_len)
+    for row in range(0, row_len):
+        for col in range(0, col_len):
+            result[row][col] = matrix[col][row]
+    return result
+
+# Deletes a row in a matrix.
+# Deletes an element in an array
+def delete_row(matrix, rowToBeDeleted):
+    return matrix[:rowToBeDeleted] + matrix[rowToBeDeleted+1:]
+
+def delete_element_in_array(array, elementToBeDeleted):
+    left = array[:elementToBeDeleted]
+    right = array[elementToBeDeleted+1:]
+    result = []
+    if left != []:
+        result += left
+    if right != []:
+        result += right
+    return result
+
+def get_lowest(row):
+    result = [-1, 99999999]
+    for element in range(0, len(row)):
+        actual = row[element]
+        if(result[1] > actual):
+            result[0] = element
+            result[1] = actual
+    return result
+
+def get_highest_element_in_matrix(matrix):
+    result = [0, 0]
+    highest_element = -1
+    for row in range(0, len(matrix)):
+        for col in range(0, len(matrix[row])):
+            actual = matrix[row][col]
+            if highest_element < actual:
+                highest_element = actual
+                result[0] = row
+                result[1] = col
+    return result
+
+def print_matrix(matrix):
+    for row in range(0, len(matrix)):
+        print("|", end="\t")
+        for col in range(0, len(matrix[0])):
+            print(matrix[row][col], end="\t|\t")
+        print("")
+    print("\n\t\t---------- END ----------\n")
