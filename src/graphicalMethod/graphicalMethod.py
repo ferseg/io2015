@@ -60,9 +60,14 @@ class GraphicalMethod:
 	
 	def get_advice(self):
 		result = self.get_solution()
-		text = "Puntos:\n"
-		for element in result[1]:
-			text += "X: " + ('%10s' % str(element[X_VALUE])) + ". Y: " + ('%10s' % str(element[Y_VALUE])) + ". Con un valor de: " + ('%10s' % str(element[2])) + ".\n"
+		text = ""
+		if len(result[1]) > 0:
+			text += "Puntos:\n"
+			text += "-" * 49 + "\n"
+			text += "|" + ('%15s' % "Punto X") + "|" + ('%15s' % "Punto Y") + "|" + ('%15s' % "Valor") + "|\n"
+			for element in result[1]:
+				text += "|" + ('%15s' % str(element[X_VALUE])) + "|" + ('%15s' % str(element[Y_VALUE])) + "|" + ('%15s' % str(element[2])) + "|\n"
+			text += "-" * 49 + "\n"
 		text += "Recomendación:"
 		if len(result[0]) == 0:
 			text += "El problema posee solución no acotada.\n"
@@ -71,7 +76,7 @@ class GraphicalMethod:
 		else:
 			text += "El problema posee soluciónes multiples.\n"
 		for element in result[0]:
-			text += "X: " + ('%10s' % str(element[X_VALUE])) + ". Y: " + ('%10s' % str(element[Y_VALUE])) + ". Con un valor de: " + ('%10s' % str(element[2])) + ".\n"
+			text += "X: " + ('%15s' % str(element[X_VALUE])) + ". Y: " + ('%15s' % str(element[Y_VALUE])) + ". Con un valor de: " + ('%15s' % str(element[2])) + ".\n"
 		return text
 
 	def get_solution(self):
@@ -105,7 +110,7 @@ def get_FO(intersections,objective_function,max_min):
 	else:
 		varX = intersections[START][X_VALUE]
 		varY = intersections[START][Y_VALUE]
-		value = varX * ofX + varY * ofY
+		value = varX * ofX + varY * ofY + ofZ
 		result[0] += [[varX,varY,value]]
 		result[1] += [[varX,varY,value]]
 		intersections = intersections[1:]

@@ -3,6 +3,7 @@ import operator
 OPERATORS = {
             '<=': operator.le,
             '>=': operator.ge,
+            '=': operator.eq,
             }
 X_VALUE = 0
 Y_VALUE = 1

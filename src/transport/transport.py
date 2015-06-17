@@ -1,5 +1,4 @@
 import graphicalMethod as gm
-#from graphicalMethod import GraphicalMethod
 
 TABLE_LEN = 10
 
@@ -68,7 +67,7 @@ class Transport:
 		text += "|" + ('%10s' % str(eval(str(self.inequation_matrix[2][3]) + "-y")))
 		text += "|" + ('%10s' % str(eval(str(-self.inequation_matrix[3][3]) + "+x+y")))
 		text += "|\n"
-		text += "-" * 45 + "\n"
+		text += "-" * TABLE_LEN * 4 + "-"*5 +"\n"
 		return text
 
 	def to_string(self):
