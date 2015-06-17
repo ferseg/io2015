@@ -15,3 +15,4 @@ from .vector_utils import get_lowest
 from .vector_utils import get_highest_element_in_matrix
 from .vector_utils import delete_element_in_array
 from .vector_utils import print_matrix
+from .vector_utils import get_maximun_element_from_column

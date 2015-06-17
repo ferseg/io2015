@@ -131,6 +131,15 @@ def get_highest_element_in_matrix(matrix):
                 result[1] = col
     return result
 
+def get_maximun_element_from_column(matrix, column):
+    result = [0, 0]
+    for row in range(0, len(matrix)):
+        current_number = matrix[row][column]
+        if result[1] < current_number:
+            result[0] = row
+            result[1] = current_number
+    return result
+
 def print_matrix(matrix):
     for row in range(0, len(matrix)):
         print("|", end="\t")
