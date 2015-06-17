@@ -36,8 +36,6 @@ class GraphicalMethod:
 		self.inequations_matrix = inequations_matrix + [X_AXIS_FUNCTION] + [Y_AXIS_FUNCTION] + [X_MAX_AXIS] + [Y_MAX_AXIS]
 		self.intersections = get_intersections(self.inequations_matrix)
 
-		#self.max_intersections = get_Max(mu.eval_intersections(self.inequations_matrix, self.intersections))
-		
 		temp = inequations_matrix + [X_AXIS_FUNCTION] + [Y_AXIS_FUNCTION]
 		temp = get_intersections(temp)
 		self.max_intersections = get_Max(temp)
@@ -58,22 +56,30 @@ class GraphicalMethod:
 		inequations = self.matrix_to_inequation()
 		intersections = mu.eval_intersections(self.inequations_matrix, self.intersections)
 		maxAxis = self.max_intersections
-		
-		result = get_FO(intersections,self.objective_function,self.max_min)
-		text = ""
-		if len(result) == 0:
-			text = "Solución no acotada."
-		elif len(result) == 1:
-			text = "El problema posee solución única."
-		else:
-			text = "El problema posee soluciónes multiples."
-		print(text)
-		for element in result:
-			print("X: " + str(element[X_VALUE]) + ". Y: " + str(element[Y_VALUE]) + ". Con un valor de: " + str(element[2]) + ".")
-		
-
-
 		gm.plot_graph(inequations,intersections,maxAxis)
+	
+	def get_advice(self):
+		result = self.get_solution()
+		text = "Puntos:\n"
+		for element in result[1]:
+			text += "X: " + ('%10s' % str(element[X_VALUE])) + ". Y: " + ('%10s' % str(element[Y_VALUE])) + ". Con un valor de: " + ('%10s' % str(element[2])) + ".\n"
+		text += "Recomendación:"
+		if len(result[0]) == 0:
+			text += "El problema posee solución no acotada.\n"
+		elif len(result[0]) == 1:
+			text += "El problema posee solución única.\n"
+		else:
+			text += "El problema posee soluciónes multiples.\n"
+		for element in result[0]:
+			text += "X: " + ('%10s' % str(element[X_VALUE])) + ". Y: " + ('%10s' % str(element[Y_VALUE])) + ". Con un valor de: " + ('%10s' % str(element[2])) + ".\n"
+		return text
+
+	def get_solution(self):
+		inequations = self.matrix_to_inequation()
+		intersections = mu.eval_intersections(self.inequations_matrix, self.intersections)
+		maxAxis = self.max_intersections
+		result = get_FO(intersections,self.objective_function,self.max_min)
+		return result
 
 def get_intersections(inequations_matrix):
 	result = []
@@ -89,29 +95,36 @@ def get_intersections(inequations_matrix):
 	return make_unique(result)
 
 def get_FO(intersections,objective_function,max_min):
-	result = []
+	result = [[],[]]
 	ofX = objective_function[X_VALUE]
 	ofY = objective_function[Y_VALUE]
+	ofZ = objective_function[2]
+	flag = True
 	if intersections == []:
 		return result
 	else:
 		varX = intersections[START][X_VALUE]
 		varY = intersections[START][Y_VALUE]
 		value = varX * ofX + varY * ofY
-		result += [[varX,varY,value]]
+		result[0] += [[varX,varY,value]]
+		result[1] += [[varX,varY,value]]
 		intersections = intersections[1:]
 		for element in intersections:
 			varX = intersections[START][X_VALUE]
 			varY = intersections[START][Y_VALUE]
-			if varX != MAX_NUM and varY != MAX_NUM:
-				value = varX * ofX + varY * ofY
-				if OPERATORS[max_min](value, result[START][2]):
-					result = [[varX,varY,value]]
-				elif value == result[START][2]:
-					result += [[varX,varY,value]]
-			else:
-				result = []
-				break
+			if varX != MAX_NUM and varY != MAX_NUM and flag:
+				value = varX * ofX + varY * ofY + ofZ
+				if OPERATORS[max_min](value, result[0][START][2]):
+					result[0] = [[varX,varY,value]]
+				elif value == result[0][START][2]:
+					result[0] += [[varX,varY,value]]
+				result[1] += [[varX,varY,value]]
+			elif varX != MAX_NUM and varY != MAX_NUM:
+				value = varX * ofX + varY * ofY + ofZ
+				result[1] += [[varX,varY,value]]
+			elif (varX == MAX_NUM or varY == MAX_NUM) and max_min == MAX:
+				result[0] = []
+				flag = False
 			intersections = intersections[1:]
 		return result
 

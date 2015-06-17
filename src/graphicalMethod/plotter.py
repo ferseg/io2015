@@ -5,9 +5,6 @@ from scipy.spatial import ConvexHull
 from matplotlib.font_manager import FontProperties
 from pylab import *
 
-#import math_utils as leu
-
-
 
 #Constant definition
 GRID = True
@@ -25,6 +22,7 @@ LINE_COLOR = "k"
 LINE_STYLE = "dashed"
 REGION_COLOR = "blue"
 TITLE = "Graficador"
+ROUND_NUMBER = 2
 
 def plot_graph(inequalities,intersections,axis):
     """
@@ -67,7 +65,7 @@ def plot_graph(inequalities,intersections,axis):
             varY = intersections[i][Y_VALUE]
             region[X_VALUE].append(varX)
             region[Y_VALUE].append(varY)
-            text = "(" + str(round(varX,3)) + "," + str(round(varY,3)) + ")"
+            text = "(" + str(round(varX,ROUND_NUMBER)) + "," + str(round(varY,ROUND_NUMBER)) + ")"
             plt.text(varX,varY,text,fontproperties=font0,**alignment)
         plt.fill(region[X_VALUE],region[Y_VALUE],REGION_COLOR)
 

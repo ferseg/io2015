@@ -2,60 +2,77 @@ __author__ = 'fsegovia'
 
 # Testing
 
-import graphicalMethod as gm
+#import graphicalMethod as gm
+import transport as trns
+#from sympy import *
 
 
-y = gm.GraphicalMethod([0.75,1],[[1,3,"<=",15],[5,1,"<=",20],[3,4,"<=",24]],1)
+"""
+y = gm.GraphicalMethod([0.75,1,0],[[1,3,"<=",15],[5,1,"<=",20],[3,4,"<=",24]],1)
+print(y.get_advice())
 y.plot()
 
-y = gm.GraphicalMethod([0.75,1],[[0,1,"<=",5],[0,1,">=",10],[1,0,"<=",5]],1)
+y = gm.GraphicalMethod([0.75,1,0],[[0,1,"<=",5],[0,1,">=",10],[1,0,"<=",5]],1)
+print(y.get_advice())
 y.plot()
 
 
-y = gm.GraphicalMethod([0.75,1],[[0,1,"<=",4]],1)
+y = gm.GraphicalMethod([0.75,1,0],[[0,1,"<=",4]],1)
+print(y.get_advice())
 y.plot()
 
-y = gm.GraphicalMethod([0.75,1],[[1,0,"<=",4]],1)
+y = gm.GraphicalMethod([0.75,1,0],[[1,0,"<=",4]],1)
+print(y.get_advice())
 y.plot()
 
 
-
-
-
-y = gm.GraphicalMethod([6,10],
+y = gm.GraphicalMethod([6,10,0],
 	[[1,0,"<=",1000],
 	[0,1,"<=",700],
 	[1,1,"<=",800],
 	[1,1,">=",200]],0)
+print(y.get_advice())
 y.plot()
 
 
-"""
-y = gm.GraphicalMethod([1,1],
-	[[1,0,"<=",2000], [0,1,"<=",3000], [1,1,"<=",4000]], 1)
+y = gm.GraphicalMethod([1,1,0],
+	[[2,-1,">=",0],
+	[1,1,"<=",150],
+	[1,0,">=",40],
+	[0,1,">=",20]],1)
+print(y.get_advice())
+y.plot()
+
+y = gm.GraphicalMethod([1500,1000,0],
+	[[1,1,"<=",3000],
+	[1,0,"<=",2000],
+	[0,1,"<=",2000]],1)
+print(y.get_advice())
+y.plot()
+
+
+y = gm.GraphicalMethod([4,2,0],
+	[[2,1,"<=",4],
+	[1,-1,"<=",1]],1)
+print(y.get_advice())
+y.plot()
+
+y = gm.GraphicalMethod([1,1,0],
+	[[2,-1,">=",0],
+	[1/2,-1,"<=",0]],1)
+print(y.get_advice())
+y.plot()
+
+y = gm.GraphicalMethod([1,1,0],
+	[[2,-1,">=",0],
+	[1/2,-1,"<=",0]],0)
+print(y.get_advice())
 y.plot()
 """
 
-"""
-a = 15.000000000000002
-b = 15
-print(round(a,9) == b)
-print(a == b)
-"""
-
-#y = gm.GraphicalMethod([0.75,1],[[1,3,"<=",15]],1)
-#y.plot()
-#y = gm.GraphicalMethod([0.75,1],[[1,3,"<=",15],[5,1,"<=",20]],1)
-#y.plot()
 
 
 
-"""
-plot_graph(["x","8-x"],[[0,0],[0,8],[4,4]],[8,8])
-plot_graph(["10-x","20-x"],[[20,0],[0,20],[10,0],[0,10]],[20,20])
-plot_graph(["10000-x"],[[0,0],[10000,0],[0,10000]],[10000,10000])
-plot_graph(["9-x","8","x*0+8","2-x","x"],[[4.5,4.5],[0,2],[0,8],[1,8],[1,1]],[9,9])
-plot_graph(["18-2*x","(42-2*x)/3","24-3*x"],[[0,0],[8,0],[3,12],[0,14],[6,6]],[20,20])
-plot_graph(["(24-6*x)/4","(6-x)/2","1+x","2+0*x"],[[4,0],[3,1.5],[0,0],[2,2],[1,2],[0,1]],[6,6])
-"""
+
+a = trns.Transport([[3,7,1],[2,2,6]],[800,1500],[1000,700,600])
 
