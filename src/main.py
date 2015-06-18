@@ -14,6 +14,7 @@ import northwest_corner as nwc
 import voguel as vg
 import bag as b
 import replacement as rpl
+import os
 
 # CORNER
 #corner = nwc.NorthwestCorner([[3,5,8,10],[8,3,5,3],[4,3,10,7],[7,5,8,20]])
@@ -39,10 +40,82 @@ import replacement as rpl
 #Ejemplo 1
 #mat = [[-1,-1,-2,0,0,0,0],[2,1,1,1,0,0,50], [2,1,0,0,-1,0,36], [1,0,1,0,0,-1,10]]
 #Ejemplo 2 (VISTO EN CLASES)
-mat = [[-3, -2, 0, 0, 0, 0], [2, 1, 1, 0, 0, 18], [2, 3, 0, 1, 0, 42], [3, 1, 0, 0, 1, 24]]
-simp.set_matrix(mat)
-simp.start_simplex()
+# mat = [[-3, -2, 0, 0, 0, 0], [2, 1, 1, 0, 0, 18], [2, 3, 0, 1, 0, 42], [3, 1, 0, 0, 1, 24]]
+# simp.set_matrix(mat)
+# simp.start_simplex()
 #print(simp.get_matrix())
+#
+EXIT = 9
+
+running = True
+PL = 1
+TRANS = 2
+VOGUEL = 3
+CORNER = 4
+BAG = 5
+REPLACE = 6
+SIMPLEX = 7
+SHORTEST_PATH = 8
+
+while running:
+	print("\n---------- MENU ----------")
+	print("[1] Programación lineal")
+	print("[2] Transporte")
+	print("[3] Voguel")
+	print("[4] Esquina noroeste")
+	print("[5] Mochila")
+	print("[6] Reemplazo")
+	print("[7] Simplex")
+	print("[8] Salir")
+	option = int(input("Seleccione una opcion: "))
+	if option == PL:
+		# agregue kenneth
+	elif option == TRANS:
+		# agregue kenneth
+	elif option == VOGUEL:
+		matrix = eval(input("Digite la matriz con oferta y demanda: "))
+		voguel = vg.Voguel(matrix)
+		voguel.solve()
+	elif option == CORNER:
+		matrix = eval(input("Digite la matriz: "))
+		corner = nwc.NorthwestCorner(matrix)
+		corner.solve()
+		corner.print_pretty_result()
+	elif option == BAG:
+		matrix = eval(input("Digite la informacion de los articulos: "))
+		peso = int(input("Digite el peso: "))
+		bag = b.Bag(matrix, peso)
+		bag.solve()
+		bag.print_pretty_result()
+	elif option == REPLACE:
+		matrix = eval(input("Digite el detalle de las utilidades: "))
+		actual_usage_years = int(input("Digite la cantidad actual de años de la máquina: "))
+		politics_years = int(input("Digite la cantidad de años de la política: "))
+		min_years = int(input("Digite la cantidad mínima de años en la cual la maquina puede ser reemplazada: "))
+		max_years = int(input("Digite la cantidad máxima de años en la cual la maquina puede ser reemplazada: "))
+		machine_value = int(input("Digite el valor de la máquina: "))
+		replace = rpl.Replacement(matrix, actual_usage_years, politics_years, min_years, max_years, machine_value)
+		replace.solve()
+		replace.print_pretty_result()
+	elif option == SIMPLEX:
+		matrix = eval(input("Digite la matriz de simplex: "))
+		var_quantity = int(input("Digite la cantidad de variables: "))
+		simp = si.Simplex(matrix, var_quantity)
+		simp.start_simplex()
+	elif option == SHORTEST_PATH:
+		# agregue kenneth
+	if option != EXIT:
+		option = int(input("Desea continuar si [1] no [2]: "))
+	elif option == EXIT:
+		option = 2
+	if option == 2:
+		running = False
+	else:
+		clear = lambda: os.system('clear')
+		clear()
+
+
+
 
 
 """
