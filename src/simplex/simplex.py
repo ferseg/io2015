@@ -9,10 +9,15 @@ class Simplex:
 
     __OBJECTIVE_FUNCTION_INDEX = 0
     __FIRST_INDEX = 0
+    __NONE = -1
+    __UNBOUNDED = 0
+    __ONE_SOLUTION = 1
+    __DEGENERATE = 2
 
-    def __init__(self, objective_function, variable_quantity):
-        self.matrix = [objective_function]
+    def __init__(self, matrix, variable_quantity):
+        self.matrix = matrix
         self.variable_quantity = variable_quantity
+        self.solution_type = self.__NONE
 
     def set_matrix(self, matrix):
         self.matrix = matrix
@@ -21,13 +26,25 @@ class Simplex:
         return self.matrix
 
     def start_simplex(self):
-        while not self.is_optimus_solution() and not self.is_unbounded_solution():
+        last_selected = []
+        last_selected_attempts = 0
+        while not self.is_optimus_solution() and not self.is_unbounded_solution() and last_selected_attempts < 5:
             pivot_column_index = self.__get_pivot_column_index()
             pivot_column = self.get_column(pivot_column_index)
             pivot_row_index = self.get_pivot_row_index(pivot_column)
             new_pivot_row = self.modify_pivot_row(self.matrix[pivot_row_index], pivot_column_index)
+            if new_pivot_row == last_selected:
+                last_selected_attempts += 1
+            else:
+                last_selected = new_pivot_row
+                last_selected_attempts = 0
             self.matrix[pivot_row_index] = new_pivot_row
             self.change_table(pivot_row_index, pivot_column_index)
+        if self.is_unbounded_solution() or last_selected_attempts > 0:
+            self.solution_type = self.__UNBOUNDED
+        # If not set before, the it's a one solution problem
+        elif self.solution_type == self.__NONE:
+            self.solution_type = self.__ONE_SOLUTION
         return self.get_result()
 
     def get_result(self):
@@ -92,7 +109,7 @@ class Simplex:
 
     def is_optimus_solution(self):
         """
-
+        Indicates that the actual solution is the optimus
         :return:
         """
         fo = self.matrix[self.__OBJECTIVE_FUNCTION_INDEX]
