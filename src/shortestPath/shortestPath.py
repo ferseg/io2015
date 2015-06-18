@@ -8,79 +8,75 @@ class ShortestPath:
 	"""
 	def __init__(self, cost_matrix):
 		self.cost_matrix = cost_matrix
+		self.paths = []
+		self.result = []
 
 	def get_shortest_path(self):
 		costo = 0
-		result = [[[len(self.cost_matrix)-1,0]]]
+		result = [[len(self.cost_matrix)-1]]
+		final_result = []
 		while True:
 			newPath = [get_next_table(self.cost_matrix,result[LAST_ELEMENT])]
-			if search_path(result[LAST_ELEMENT],0):
+			if any(x == 0 for x in result[LAST_ELEMENT]):
 				break
-			result += newPath
-
+			result += newPath		
+		
+		self.reference = []
+		for i in range(len(self.cost_matrix)):
+			self.reference += [-1]
+		self.reference[-1] = 0
 
 		index = len(result)
 		text = "Etapa " + str(index) + ".\n"
 		text += "Punto de partida: " + str(len(self.cost_matrix)) + ".\n"
 		text += "Costo: " + str(costo) + ".\n"
 
-
-		"""
 		past = result[0]
 		result = result[1:]
-		index = len(result)
-		text += "\nEtapa "+ str(index) + ".\n"
-		temp = []
+		while result != []:
+			temp = []
+			for element in result[0]:
+				temp += [[(element + 1)]]
+				minimal_path = -1
+				minimal_cost = -1
+				for node in past:
+					cost = self.get_cost(element,node)
+					rest_of_travel = self.reference[node]
+					#print(cost,rest_of_travel,element)
+					
+					if (cost != INVALID_PATH and ((cost + rest_of_travel) < minimal_cost)) or (minimal_cost == -1 and cost != INVALID_PATH):
+						minimal_cost = cost + rest_of_travel
+						minimal_path = node + 1
+						self.reference[element] = minimal_cost
+					
+					if cost != INVALID_PATH:#si existe el camino
+						temp[LAST_ELEMENT] += [cost+rest_of_travel]
+					else:#si no existe el camino
+						temp[LAST_ELEMENT] += ['---']
+				#node contiene el nodo pasado
+				#cost = costo dl viaje de element a node
+				temp[LAST_ELEMENT] += [minimal_cost,minimal_path]
+			self.result += [temp]
+			self.paths += temp
+			past = result[0]
+			result = result[1:]
+		self.solve_path()
 
-		
-		pos = 0
-		for element in result[0]:
-			temp += [[(element[0] + 1)]]
-			minimal_path = 0
-			minimal_cost = 0
-			for node in past:
-				if ((element[1] + node[1]) < minimal_cost) or minimal_cost == 0:
-					minimal_cost = element[1] + node[1]
-					minimal_path = node[0]
-				temp[pos] += [element[1] + node[1]]
-				#node[0] tiene el nodo que se utilizó
-				#node[1] tiene el costo dl viaje
-				#element[1] tiene el costo dl viaje anterior
-			temp[pos] += [minimal_cost,minimal_path]
-			pos += 1
-		
-		print(temp)
-		#print(text)
-		print(result)
-		"""
+	def solve_path(self):
+		print(self.result)
+		path = "Ruta:\n1"
+		index = 1
+		while index != len(self.cost_matrix):
+			index = self.get_next_node(index)
+			path += " -> " + str(index)
+		print(path + "\nCon un costo de: " +str(self.reference[0]))
+		return
 
-
-		past = result[0]
-		result = result[1:]
-		index = len(result)
-		text += "\nEtapa "+ str(index) + ".\n"
-		temp = []
-
-		pos = 0
-		for element in result[0]:
-			temp += [[(element[0] + 1)]]
-			minimal_path = 0
-			minimal_cost = 0
-			for node in past:
-				if ((element[1] + node[1]) < minimal_cost) or minimal_cost == 0:
-					minimal_cost = element[1] + node[1]
-					minimal_path = node[0]
-				temp[pos] += [element[1] + node[1]]
-				#node[0] tiene el nodo que se utilizó
-				#node[1] tiene el costo dl viaje
-				#element[1] tiene el costo dl viaje anterior
-			temp[pos] += [minimal_cost,minimal_path]
-			pos += 1
-		
-		print(temp)
-		print(result)
-
-	
+	def get_cost(self,pos1,pos2):
+		result = self.cost_matrix[pos1][pos2]
+		if result < 0:
+			return INVALID_PATH
+		return result
 
 	def to_string(self):
 		text = ""
@@ -89,19 +85,21 @@ class ShortestPath:
 				text += ('%3s' % entry)
 			text += "\n"
 		print(text)
+	
+	def get_next_node(self,nextNode):
+		for element in self.paths:
+			#print(element[0])
+			if element[0] == nextNode:
+				return element[LAST_ELEMENT]
+		return INVALID_PATH
+
 
 def get_next_table(matrix,index):
 	result = []
 	rowIndex = 0
 	for element in index:
 		while rowIndex < len(matrix):
-			if matrix[rowIndex][element[0]] != INVALID_PATH:
-				result += [[rowIndex,matrix[rowIndex][element[0]]]]
+			if matrix[rowIndex][element] != INVALID_PATH:
+				result += [rowIndex]
 			rowIndex += 1
 	return result
-
-def search_path(matrix,reference):
-	for element in matrix:
-		if element[0] == reference:
-			return True
-	return False
