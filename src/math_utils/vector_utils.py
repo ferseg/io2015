@@ -141,11 +141,14 @@ def get_maximun_element_from_column(matrix, column):
     return result
 
 def get_maximun_element_from_array(array):
-    result = [0, 0]
-    max_value = max(array)
-    max_index = array.index(max_value)
-    result[0] = max_index
-    result[1] = max_value
+    result = [[], 0]
+    for index in range(0, len(array)):
+        actual = array[index]
+        if actual > result[1]:
+            result[0] = [index]
+            result[1] = actual
+        elif actual == result[1]:
+            result[0] += [index]
     return result
 
 def find_index_row_of_element_in_matrix(matrix, col, element):

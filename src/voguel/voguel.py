@@ -40,15 +40,29 @@ class Voguel:
 			self.resulting_matrix[real_row][real_col] += lower_cost[self.__VALUE] * selected[self.__VALUE]
 			temp_matrix = m_utils.transposed(temp_matrix) if is_normal else temp_matrix
 			row_to_be_deleted = lower_to_choose_last_row[self.__INDEX] if is_normal else lower_to_choose_current_row[self.__INDEX]
+			real_deleted_row = current_indexes[is_supply != is_normal][row_to_be_deleted]
 			current_indexes[is_supply != is_normal] = m_utils.delete_element_in_array(current_indexes[is_supply != is_normal], row_to_be_deleted)
 			# Last step, deletes the selected row
 			temp_matrix = m_utils.delete_row(temp_matrix, row_to_be_deleted)
-			self.matrix = m_utils.transposed(temp_matrix) if (is_supply and not is_normal) or (not is_supply and is_normal) else temp_matrix
+			need_to_be_transposed = (is_supply and not is_normal) or (not is_supply and is_normal)
+			self.matrix = m_utils.transposed(temp_matrix) if need_to_be_transposed else temp_matrix
+			deleted = "columna" if need_to_be_transposed else "fila"
+			print("Se eliminó la", deleted, real_deleted_row + 1)
+			print("\nMATRIZ ACTUAL")
+			m_utils.print_matrix(self.matrix)
 			print("MATRIZ DE PESOS")
 			m_utils.print_matrix(self.resulting_matrix)
-			print("MATRIZ ACTUAL")
-			m_utils.print_matrix(self.matrix)
 			print("\n==============================================================\n")
+		print("Resultado total:", self.get_sum_matrix())
+
+	def get_sum_matrix(self):
+		matrix = self.resulting_matrix
+		result = 0
+		for i in range(0, len(matrix)):
+			for j in range(0, len(matrix[i])):
+				result += matrix[i][j]
+		return result
+
 
 
 	def get_penalization(self, matrix):
