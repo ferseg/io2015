@@ -2,9 +2,9 @@ __author__ = 'fsegovia'
 
 # Testing
 
-# import graphicalMethod as gm
-# import transport as trns
-# import shortestPath as sp
+import graphicalMethod as gm
+import transport as trns
+import shortestPath as sp
 #from userInterface.plotter import plot_graph
 #from userInterface.plotter import matrix_to_inequation
 
@@ -113,7 +113,7 @@ y.plot()
 
 
 
-"""
+
 #Transporte
 a = trns.Transport([[3,7,1],[2,2,6]],[800,1500],[1000,700,600])
 
@@ -122,7 +122,7 @@ a = trns.Transport([[50,60,10],[25,40,20]],[500,400],[200,300,400])
 a = trns.Transport([[100,150,200],[150,120,180]],[4000,5000],[2000,3000,4000])
 
 a = trns.Transport([[3,2.5,3.5],[2.25,3.75,4]],[5000,7000],[3500,4000,4500])
-"""
+
 
 
 #Ruta mas corta
