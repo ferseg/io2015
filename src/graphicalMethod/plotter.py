@@ -2,6 +2,9 @@ import numpy as np
 import math
 import matplotlib.pyplot as plt
 from scipy.spatial import ConvexHull
+from matplotlib.font_manager import FontProperties
+from pylab import *
+
 
 #Constant definition
 GRID = True
@@ -19,6 +22,7 @@ LINE_COLOR = "k"
 LINE_STYLE = "dashed"
 REGION_COLOR = "blue"
 TITLE = "Graficador"
+ROUND_NUMBER = 2
 
 def plot_graph(inequalities,intersections,axis):
     """
@@ -47,11 +51,23 @@ def plot_graph(inequalities,intersections,axis):
 
     #paints feasible region
     region = [[],[]]
-    hull = ConvexHull(intersections)
-    for i in hull.vertices:
-        region[X_VALUE].append(intersections[i][X_VALUE])
-        region[Y_VALUE].append(intersections[i][Y_VALUE])
-    plt.fill(region[X_VALUE],region[Y_VALUE],REGION_COLOR)
+    if intersections != []:
+        hull = ConvexHull(intersections)
+
+        font0 = FontProperties()
+        font0.set_size('small')
+        alignment = {'horizontalalignment':'center', 'verticalalignment':'baseline'}
+        text = ""
+        varX = 0
+        varY = 0
+        for i in hull.vertices:
+            varX = intersections[i][X_VALUE]
+            varY = intersections[i][Y_VALUE]
+            region[X_VALUE].append(varX)
+            region[Y_VALUE].append(varY)
+            text = "(" + str(round(varX,ROUND_NUMBER)) + "," + str(round(varY,ROUND_NUMBER)) + ")"
+            plt.text(varX,varY,text,fontproperties=font0,**alignment)
+        plt.fill(region[X_VALUE],region[Y_VALUE],REGION_COLOR)
 
     #view set-up
     plt.xlim(START-abs(axis[X_VALUE])*LEFT_VIEW,abs(axis[X_VALUE])*RIGHT_VIEW)
@@ -61,13 +77,4 @@ def plot_graph(inequalities,intersections,axis):
 
 def change_sign(number):
     return -1*number
-
-def matrix_to_inequation(matrix):
-    inequations = []
-    for element in matrix:
-        if element[X_VALUE] == 0:
-            inequations += ["x*0+"+str(element[Z_VALUE]/element[Y_VALUE])]
-        elif element[Y_VALUE] == 0:
-            inequations += [str(element[Z_VALUE]/element[X_VALUE])]
-    print(inequations)
 
