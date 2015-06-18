@@ -15,7 +15,7 @@ class Simplex:
     __DEGENERATE = 2
     __SOLUTIONS = ["No acotada", "Una solución", "Degenerada"]
 
-    def __init__(self, matrix, variable_quantity, p_type):
+    def __init__(self, matrix, variable_quantity, p_type=True):
         self.matrix = matrix
         self.variable_quantity = variable_quantity
         self.solution_type = self.__NONE
@@ -174,4 +174,4 @@ class Simplex:
             print("x", i+1, "=", result[i])
         print("Solución: ", result[last_index], self.__SOLUTIONS[self.solution_type])
 
-    
+
