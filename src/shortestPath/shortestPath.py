@@ -26,15 +26,21 @@ class ShortestPath:
 			self.reference += [-1]
 		self.reference[-1] = 0
 
+		self.index = len(result)-1
 		index = len(result)
-		text = "Etapa " + str(index) + ".\n"
-		text += "Punto de partida: " + str(len(self.cost_matrix)) + ".\n"
-		text += "Costo: " + str(costo) + ".\n"
+		self.text = "Etapa " + str(index) + ".\n"
+		self.text += "Punto de partida: " + str(len(self.cost_matrix)) + ".\n"
+		self.text += "Costo: " + str(costo) + ".\n"
 
 		past = result[0]
 		result = result[1:]
 		while result != []:
+			index = len(result)
 			temp = []
+			temp += [['x' + str(index)]]
+			for x in past:
+				temp[0] += ["x=" + str(x+1)]
+			temp[0] += ["Total","x"+ str(index+1)]
 			for element in result[0]:
 				temp += [[(element + 1)]]
 				minimal_path = -1
@@ -52,7 +58,7 @@ class ShortestPath:
 					if cost != INVALID_PATH:#si existe el camino
 						temp[LAST_ELEMENT] += [cost+rest_of_travel]
 					else:#si no existe el camino
-						temp[LAST_ELEMENT] += ['---']
+						temp[LAST_ELEMENT] += ['-']
 				#node contiene el nodo pasado
 				#cost = costo dl viaje de element a node
 				temp[LAST_ELEMENT] += [minimal_cost,minimal_path]
@@ -63,7 +69,17 @@ class ShortestPath:
 		self.solve_path()
 
 	def solve_path(self):
-		print(self.result)
+		index = self.index
+		self.text += "\n"
+		for element in self.result:
+			self.text += "Etapa " + str(index) + ".\n"
+			for row in element:
+				for entry in row:
+					self.text += '|%5s' % str(entry)
+				self.text += "|\n"
+			self.text += "\n"
+			index -= 1
+		print(self.text)
 		path = "Ruta:\n1"
 		index = 1
 		while index != len(self.cost_matrix):
