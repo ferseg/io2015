@@ -25,7 +25,8 @@ def deduct(a, b):
 # MODIFIED TO USE WITH SIMPLEX
 def division(a, b):
     if b > 0:
-        return a / b
+        div = a / b
+        return div#round(div, 2)
     return 99999999
 
 
