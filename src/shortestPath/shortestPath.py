@@ -43,7 +43,7 @@ class ShortestPath:
 			temp[0] += ["Total","x"+ str(index+1)]
 			for element in result[0]:
 				temp += [[(element + 1)]]
-				minimal_path = -1
+				minimal_path = []
 				minimal_cost = -1
 				for node in past:
 					cost = self.get_cost(element,node)
@@ -52,9 +52,12 @@ class ShortestPath:
 					
 					if (cost != INVALID_PATH and ((cost + rest_of_travel) < minimal_cost)) or (minimal_cost == -1 and cost != INVALID_PATH):
 						minimal_cost = cost + rest_of_travel
-						minimal_path = node + 1
+						minimal_path = [node + 1]
 						self.reference[element] = minimal_cost
 					
+					elif (cost+rest_of_travel) == minimal_cost:
+						minimal_path += [node + 1]
+
 					if cost != INVALID_PATH:#si existe el camino
 						temp[LAST_ELEMENT] += [cost+rest_of_travel]
 					else:#si no existe el camino
@@ -75,18 +78,31 @@ class ShortestPath:
 			self.text += "Etapa " + str(index) + ".\n"
 			for row in element:
 				for entry in row:
-					self.text += '|%5s' % str(entry)
+					self.text += '|%8s' % str(entry)
 				self.text += "|\n"
 			self.text += "\n"
 			index -= 1
 		print(self.text)
 		path = "Ruta:\n1"
-		index = 1
-		while index != len(self.cost_matrix):
-			index = self.get_next_node(index)
-			path += " -> " + str(index)
+		index = [0]
+		result = [1]
+		while index[0] != len(self.cost_matrix):
+			index = self.get_next_node(index[0]+1)
+			#if len(index) == 0:
+			result += [index][0]
+			path += " -> " + str(index[0])
+			#else:
+				#temp = self.get_path(index,path)
+				#print(temp)
+		#print(result)
 		print(path + "\nCon un costo de: " +str(self.reference[0]))
 		return
+
+	def get_path(self,index,path):
+		result = []
+		for i in self.get_next_node(index):
+			result += self.get_next_node(index[0]+1)
+			path += " -> " + str(index)
 
 	def get_cost(self,pos1,pos2):
 		result = self.cost_matrix[pos1][pos2]
@@ -104,10 +120,9 @@ class ShortestPath:
 	
 	def get_next_node(self,nextNode):
 		for element in self.paths:
-			#print(element[0])
 			if element[0] == nextNode:
 				return element[LAST_ELEMENT]
-		return INVALID_PATH
+		return [INVALID_PATH]
 
 
 def get_next_table(matrix,index):
