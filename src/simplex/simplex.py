@@ -13,11 +13,13 @@ class Simplex:
     __UNBOUNDED = 0
     __ONE_SOLUTION = 1
     __DEGENERATE = 2
+    __SOLUTIONS = ["No acotada", "Una solución", "Degenerada"]
 
-    def __init__(self, matrix, variable_quantity):
+    def __init__(self, matrix, variable_quantity, p_type=True):
         self.matrix = matrix
         self.variable_quantity = variable_quantity
         self.solution_type = self.__NONE
+        self.type = p_type
 
     def set_matrix(self, matrix):
         self.matrix = matrix
@@ -40,12 +42,14 @@ class Simplex:
                 last_selected_attempts = 0
             self.matrix[pivot_row_index] = new_pivot_row
             self.change_table(pivot_row_index, pivot_column_index)
-        if self.is_unbounded_solution() or last_selected_attempts > 0:
+            m_utils.print_matrix(self.matrix)
+        if self.is_unbounded_solution() or last_selected_attempts == 5:
             self.solution_type = self.__UNBOUNDED
         # If not set before, the it's a one solution problem
-        elif self.solution_type == self.__NONE:
+        elif self.solution_type == self.__NONE or self.is_optimus_solution():
             self.solution_type = self.__ONE_SOLUTION
-        return self.get_result()
+        #return self.get_result()
+        self.print_pretty_result()
 
     def get_result(self):
         """
@@ -62,6 +66,8 @@ class Simplex:
                     appearences = m_utils.count_appearences_in_array(1, column)
                     if appearences == 1:
                         result[index] = values[actual_constraint-1]
+        fo = self.matrix[self.__OBJECTIVE_FUNCTION_INDEX]
+        result += [fo[len(fo)-1]]
         return result
 
 
@@ -92,6 +98,7 @@ class Simplex:
         if reference_value != 0:
             for index in range(0, len(array)):
                 array[index] /= reference_value
+                array[index] = round(array[index], 2)
         return array
 
     def modify_normal_row(self, column_index, old_row, pivot_row):
@@ -113,8 +120,9 @@ class Simplex:
         :return:
         """
         fo = self.matrix[self.__OBJECTIVE_FUNCTION_INDEX]
+        multiplier = 1 if self.type else - 1
         for index in range(0, len(fo)):
-            if fo[index] < 0:
+            if multiplier * fo[index] < 0:
                 return False
         return True
 
@@ -158,3 +166,12 @@ class Simplex:
     def __get_values(self):
         index = len(self.matrix[self.__FIRST_INDEX]) - 1
         return self.get_column(index)
+
+    def print_pretty_result(self):
+        result = self.get_result()
+        last_index = len(result)-1
+        for i in range(0, last_index):
+            print("x", i+1, "=", result[i])
+        print("Solución: ", result[last_index], self.__SOLUTIONS[self.solution_type])
+
+
