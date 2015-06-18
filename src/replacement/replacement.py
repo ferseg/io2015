@@ -7,6 +7,11 @@ class Replacement:
 	__OPERATION_COST = 1
 	__RETURNIG_VALUE = 2
 
+	__TWO_PATHS = 2
+
+	__KEEP = "KEEP"
+	__REPLACE = "REPLACE"
+
 	def __init__(self, data_table, actual_usage_years, years_of_politics, 
 		min_replacement_years, max_replacement_years, machine_total_cost):
 		self.data_table = data_table
@@ -22,14 +27,12 @@ class Replacement:
 		for index in range(0, self.years_of_politics):
 			actual_stage = self.years_of_politics - (index + 1)
 			times_in_stage = self.get_times_in_stage(stages, actual_stage)
-
 			result = []
 			if index != 0:
 				result = self.get_first_keep_and_replace_value_for_all_times(times_in_stage, index)
 			else:
 				result = self.get_first_keep_and_replace_value_for_all_times_first(times_in_stage)
 			self.result += [result]
-			print("RES", result)
 
 	def get_stages(self):
 		stages = self.get_stages_aux(self.min_replacement_years, self.max_replacement_years, self.years_of_politics, self.actual_usage_years)
@@ -126,4 +129,46 @@ class Replacement:
 			current_data_row = self.data_table[current_time]
 			st = current_data_row[self.__RETURNIG_VALUE]
 			return r0 + st - c0 - self.machine_total_cost + f1
+
+	def get_solutions(self):
+		result= self.get_solutions_aux(self.actual_usage_years, 0, [])
+		return result
+
+	def get_solutions_aux(self, current_usage_years, current_politics_years, current_result):
+		if self.years_of_politics == current_politics_years:
+			return current_result
+		current_table_index = self.years_of_politics - (current_politics_years + 1)
+		current_table = self.result[current_table_index]
+		real_index = m_utils.find_index_row_of_element_in_matrix(current_table, 0, current_usage_years)
+		list_of_decision = current_table[real_index][len(current_table[0]) - 2]
+		len_decision = len(list_of_decision)
+		if len_decision == self.__TWO_PATHS:
+			return [self.get_solutions_aux(current_usage_years + 1, current_politics_years + 1, current_result + [self.__KEEP] )] + [self.get_solutions_aux(1, current_politics_years + 1, current_result + [self.__REPLACE])] #[[self.__KEEP] + self.get_solutions_aux(current_usage_years + 1, current_politics_years + 1)] + [[self.__REPLACE] + self.get_solutions_aux(1, current_politics_years + 1)]
+		elif list_of_decision[0] == 1:
+			return self.get_solutions_aux(current_usage_years + 1, current_politics_years + 1, current_result + [self.__KEEP]) #[self.__KEEP] + self.get_solutions_aux(current_usage_years + 1, current_politics_years + 1)
+		else:
+			return self.get_solutions_aux(1, current_politics_years + 1, current_result + [self.__REPLACE]) #[self.__REPLACE] + self.get_solutions_aux(1, current_politics_years + 1)
+
+	# Console printing
+	def print_pretty_result(self):
+		amount_of_tables = len(self.result) - 1
+		for suggested_table_index in range(0, amount_of_tables + 1):
+			current_table_index = amount_of_tables - suggested_table_index
+			current_table = self.result[current_table_index]
+			print("Tabla:", current_table_index+1)
+			self.print_table_header((suggested_table_index + 1))
+			m_utils.print_matrix(current_table)
+		solutions = self.get_solutions()
+		print("Soluciones:")
+		for actual_result in range(0, len(solutions)):
+			print("\n-------------------------------")
+			for actual_step in range(0, len(solutions[actual_result])):
+				ending = " - " if actual_step != len(solutions[actual_result]) - 1 else "" 
+				print(solutions[actual_result][actual_step], end=ending)
+		print("\n-------------------------------")
+		print("UTILIDAD MÁXIMA: $", self.result[len(self.result)-1][0][4])
+	
+	def print_table_header(self, current_table_number):
+		print("|\tt\t|\tK\t|\tR\t|    Decision\t|    f",current_table_number,"(t)\t|")
+
 

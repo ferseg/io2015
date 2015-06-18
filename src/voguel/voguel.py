@@ -44,11 +44,21 @@ class Voguel:
 			# Last step, deletes the selected row
 			temp_matrix = m_utils.delete_row(temp_matrix, row_to_be_deleted)
 			self.matrix = m_utils.transposed(temp_matrix) if (is_supply and not is_normal) or (not is_supply and is_normal) else temp_matrix
-			print("MATRIZ DE PESOS")
-			m_utils.print_matrix(self.resulting_matrix)
 			print("MATRIZ ACTUAL")
 			m_utils.print_matrix(self.matrix)
+			print("MATRIZ DE PESOS")
+			m_utils.print_matrix(self.resulting_matrix)
 			print("\n==============================================================\n")
+		print("Resultado total:", self.get_sum_matrix())
+
+	def get_sum_matrix(self):
+		matrix = self.resulting_matrix
+		result = 0
+		for i in range(0, len(matrix)):
+			for j in range(0, len(matrix[i])):
+				result += matrix[i][j]
+		return result
+
 
 
 	def get_penalization(self, matrix):
